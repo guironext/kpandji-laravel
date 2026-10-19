@@ -1,0 +1,36 @@
+<?php
+use App\Http\Controllers\SiteController;
+use Illuminate\Support\Facades\Route;
+Route::get('/', [SiteController::class, 'home'])->name('home');
+Route::get('/modeles', [SiteController::class, 'index'])->name('cars.index');
+Route::get('/modeles/{car}', [SiteController::class, 'show'])->name('cars.show');
+Route::get('/demande-essai', [SiteController::class, 'contact'])->name('contact');
+Route::post('/demande-essai', [SiteController::class, 'store'])->name('contact.store');
+
+// Pages du header (KpHeader)
+Route::get('/showroom', [SiteController::class, 'index'])->name('showroom');
+Route::get('/essai', [SiteController::class, 'contact'])->name('essai');
+Route::view('/opportunities', 'pages.placeholder', ['title' => 'Opportunités', 'kicker' => 'Offres du moment', 'text' => "Retrouvez ici les offres et opportunités KPANDJI. La grande promotion est en cours sur toute la gamme."])->name('opportunities');
+Route::view('/sav', 'pages.placeholder', ['title' => 'S.A.V.', 'kicker' => 'Service après-vente', 'text' => "Entretien, pièces et assistance pour votre véhicule KPANDJI. Cette page sera bientôt complétée ; en attendant, contactez-nous via le formulaire."])->name('sav');
+Route::view('/contact', 'pages.placeholder', ['title' => 'Contact', 'kicker' => 'Nous joindre', 'text' => "Une question sur un modèle ou sur la promotion ? Utilisez notre formulaire, un conseiller KPANDJI vous rappelle rapidement."])->name('contact.page');
+Route::view('/kpandji-automobiles', 'pages.placeholder', ['title' => 'KPANDJI Automobiles', 'kicker' => 'La marque', 'text' => "La force d'une racine, l'élan d'une nation. Véhicules assemblés en Côte d'Ivoire : DJETRAN, DJETRAN PLUS, LATHAYE, BANCO."])->name('automobiles');
+Route::view('/ecologie', 'pages.placeholder', ['title' => 'Eco-Kpandji', 'kicker' => 'Écologie', 'text' => "L'assemblage local de nos modèles (DJETRAN, DJETRAN PLUS, LATHAYE, BANCO) réduit significativement les émissions liées au transport maritime de véhicules finis."])->name('ecologie');
+Route::view('/emplois', 'pages.placeholder', ['title' => 'Kpandji-Emplois', 'kicker' => 'Carrières', 'text' => "Les offres d'emploi KPANDJI seront publiées ici prochainement."])->name('emplois');
+
+// ===== Administration =====
+use App\Http\Controllers\Admin\AuthController as AdminAuth;
+use App\Http\Controllers\Admin\CarController as AdminCars;
+use App\Http\Controllers\Admin\DashboardController as AdminDash;
+Route::get('/admin/login', [AdminAuth::class, 'showLogin'])->name('login');
+Route::post('/admin/login', [AdminAuth::class, 'login'])->middleware('throttle:10,1')->name('admin.login');
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+    Route::post('/logout', [AdminAuth::class, 'logout'])->name('logout');
+    Route::get('/', [AdminDash::class, 'index'])->name('dashboard');
+    Route::get('/promotion', [AdminDash::class, 'promo'])->name('promo');
+    Route::put('/promotion', [AdminDash::class, 'savePromo'])->name('promo.save');
+    Route::get('/demandes', [AdminDash::class, 'requests'])->name('requests');
+    Route::patch('/demandes/{item}', [AdminDash::class, 'toggleHandled'])->name('requests.toggle');
+    Route::post('/voitures/ordre', [AdminCars::class, 'reorder'])->name('cars.reorder');
+    Route::patch('/voitures/{car:id}/visibilite', [AdminCars::class, 'toggle'])->name('cars.toggle');
+    Route::resource('voitures', AdminCars::class)->parameters(['voitures' => 'car:id'])->names('cars')->except('show');
+});

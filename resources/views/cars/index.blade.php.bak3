@@ -1,0 +1,10 @@
+@extends('layouts.app')
+@section('title','Nos modèles')
+@section('content')
+<section class="max-w-7xl mx-auto px-6 pt-16">
+  <p class="text-kp-gold uppercase tracking-[0.3em] text-sm">Promotion en cours</p>
+  <h1 class="text-5xl font-extrabold text-white mt-2">Liste des modèles</h1>
+  <p class="mt-4 text-kp-silver/70 max-w-2xl">Découvrez la gamme KPANDJI à prix réduits. Cliquez sur un modèle pour voir sa fiche complète.</p>
+  <div class="grid md:grid-cols-2 gap-8 mt-12">@foreach($cars as $car) @include('partials.card') @endforeach</div>
+</section>
+@endsection

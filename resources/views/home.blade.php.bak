@@ -1,0 +1,27 @@
+@extends('layouts.app')
+@section('title','Accueil')
+@section('content')
+<section class="relative min-h-[80vh] flex items-center overflow-hidden">
+  <img src="{{ asset('images/hero.jpg') }}" class="absolute inset-0 w-full h-full object-cover opacity-50" alt="">
+  <div class="absolute inset-0 bg-gradient-to-r from-kp-black via-kp-black/70 to-transparent"></div>
+  <div class="relative max-w-7xl mx-auto px-6 py-24">
+    <p class="text-kp-gold uppercase tracking-[0.4em] text-sm">Offre exceptionnelle</p>
+    <h1 class="mt-4 text-5xl md:text-7xl font-extrabold text-white leading-tight">{{ config('promo.title') }}</h1>
+    @if(config('promo.reduction_percent') > 0)<p class="mt-4 text-6xl font-extrabold text-kp-gold">-{{ config('promo.reduction_percent') }} %</p>@endif
+    <p class="mt-6 max-w-xl text-lg text-kp-sand/90">{{ config('promo.subtitle') }}</p>
+    <div class="mt-10 flex flex-wrap gap-4">
+      <a href="{{ route('cars.index') }}" class="bg-kp-gold text-kp-black font-bold uppercase tracking-wider px-8 py-4 hover:bg-white transition">Voir les modèles</a>
+      <a href="{{ route('contact') }}" class="border border-white text-white uppercase tracking-wider px-8 py-4 hover:border-kp-gold hover:text-kp-gold transition">Réserver un essai</a>
+    </div>
+  </div>
+</section>
+<section class="max-w-7xl mx-auto px-6 mt-20">
+  <div class="flex items-end justify-between mb-10"><div><p class="text-kp-gold uppercase tracking-[0.3em] text-sm">La gamme</p><h2 class="text-4xl font-extrabold text-white mt-2">Nos modèles en promotion</h2></div><a href="{{ route('cars.index') }}" class="text-kp-gold hidden md:block">Tous les modèles →</a></div>
+  <div class="grid md:grid-cols-2 gap-8">@foreach($cars as $car) @include('partials.card') @endforeach</div>
+</section>
+<section class="max-w-7xl mx-auto px-6 mt-24 grid md:grid-cols-3 gap-6 text-center">
+  @foreach([['Assemblé en Côte d\'Ivoire','Des véhicules pensés pour nos routes.'],['Prix réduits','Une promotion sur toute la gamme KPANDJI.'],['Essai gratuit','Réservez votre essai en quelques clics.']] as [$t,$d])
+  <div class="border border-white/10 p-8"><p class="text-kp-gold text-xl font-bold">{{ $t }}</p><p class="mt-2 text-kp-silver/70">{{ $d }}</p></div>
+  @endforeach
+</section>
+@endsection

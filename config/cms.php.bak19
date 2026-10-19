@@ -1,0 +1,159 @@
+<?php
+/*
+| Registre CMS KPANDJI : chaque contenu éditable depuis /admin/contenu.
+| Format : 'clé' => [onglet, type, libellé, valeur par défaut (= contenu d'origine), (champs du répéteur)]
+| Types : text | textarea | richtext | image | video | url | list
+*/
+$L = fn ($label, $url) => ['label' => $label, 'url' => $url];
+return [
+  'tabs' => [
+    'header' => 'Header', 'hero' => 'Hero', 'promo' => 'Promotion', 'home' => 'Accueil',
+    'parallax' => 'Parallaxe', 'footer' => 'Pied de page', 'form' => 'Formulaire', 'misc' => 'Textes divers',
+  ],
+  'fields' => [
+    // ---------------- HEADER ----------------
+    'header.logo' => ['header', 'image', 'Logo (header, menu mobile, pied de page, favicon)', 'images/logo.png'],
+    'header.brand' => ['header', 'text', 'Nom animé du logo', 'Kpandji'],
+    'header.tagline1' => ['header', 'text', 'Slogan — ligne 1', "La force d'une racine"],
+    'header.tagline2' => ['header', 'text', 'Slogan — ligne 2', "l'élan d'une nation"],
+    'header.nav' => ['header', 'list', 'Menu principal', [
+        $L('Accueil', '/') + ['visible' => '1'], $L('ShowRoom', '/showroom') + ['visible' => '1'], $L('Opportunités', '/opportunities') + ['visible' => '1'],
+        $L('S.A.V.', '/sav') + ['visible' => '1'], $L('Contact', '/contact') + ['visible' => '1'],
+      ], ['label' => 'Libellé', 'url' => 'Lien', 'visible' => 'Visible (1/0)']],
+    'header.utility' => ['header', 'list', 'Liens du bandeau supérieur', [
+        $L('KPANDJI AUTOMOBILES', '/kpandji-automobiles'), $L('Eco-Kpandji', '/ecologie'), $L('Kpandji-Emplois', '/emplois'),
+      ], ['label' => 'Libellé', 'url' => 'Lien']],
+    'header.cta_label' => ['header', 'text', 'Bouton principal — libellé', 'Réserver un essai'],
+    'header.cta_url' => ['header', 'url', 'Bouton principal — lien', '/essai'],
+    'header.account_label' => ['header', 'text', 'Menu mobile — bouton espace client', 'Espace client'],
+    'header.mobile_tagline' => ['header', 'text', 'Menu mobile — signature', 'KPANDJI — Constructeur automobile'],
+    'header.search_placeholder' => ['header', 'text', 'Recherche — texte indicatif', 'Rechercher un modèle, une thématique…'],
+    'header.search_title' => ['header', 'text', 'Recherche — titre', 'Que souhaitez-vous découvrir ?'],
+    'header.search_hint' => ['header', 'text', 'Recherche — aide', 'Saisissez un mot-clé ou explorez les rubriques ci-dessous.'],
+    'header.search_close' => ['header', 'text', 'Recherche — bouton fermer', 'Fermer'],
+    'header.search_tags' => ['header', 'list', 'Recherche — mots-clés suggérés', [['label' => 'DJET'], ['label' => 'LATHAYE'], ['label' => 'BANCO'], ['label' => 'Promotion'], ['label' => 'Essai']], ['label' => 'Mot-clé']],
+
+    // ---------------- HERO ----------------
+    'hero.video' => ['hero', 'video', 'Vidéo de fond (MP4)', 'video.mp4'],
+    'hero.badge' => ['hero', 'text', 'Badge doré', 'Offre exceptionnelle · Durée limitée'],
+    'hero.eyebrow' => ['hero', 'text', 'Surtitre à côté du badge (vide = masqué)', ''],
+    'hero.title1' => ['hero', 'text', 'Titre — ligne 1 (blanc)', 'KPANDJI'],
+    'hero.title2' => ['hero', 'text', 'Titre — ligne 2 (doré italique)', 'Casse les prix !'],
+    'hero.subline' => ['hero', 'textarea', 'Accroche sous le titre (vide = masquée)', ''],
+    'hero.offer_label' => ['hero', 'text', 'Carte offre — petit titre', "L'offre du moment"],
+    'hero.offer_text' => ['hero', 'text', 'Carte offre — texte (si aucune réduction %)', 'Prix réduits sur tous nos modèles'],
+    'hero.offer_pct' => ['hero', 'text', 'Carte offre — texte avec réduction (:pct = pourcentage)', "JUSQU'À -:pct %"],
+    'hero.offer_until' => ['hero', 'text', 'Carte offre — préfixe date de fin', "Jusqu'au"],
+    'hero.chips' => ['hero', 'list', 'Pastilles avantages', [['label' => 'Garantie 3 ans ou 100 000 km'], ['label' => 'Batterie 8 ans ou 150 000 km']], ['label' => 'Texte']],
+    'hero.cta1_label' => ['hero', 'text', 'Bouton doré — libellé', 'Voir les offres'],
+    'hero.cta1_url' => ['hero', 'url', 'Bouton doré — lien', '#offres'],
+    'hero.cta2_label' => ['hero', 'text', 'Bouton contour — libellé', 'Réserver un essai'],
+    'hero.cta2_url' => ['hero', 'url', 'Bouton contour — lien', '/essai'],
+    'hero.legal' => ['hero', 'text', 'Mention légale', '* Offre valable dans la limite des stocks disponibles.'],
+    'hero.marquee' => ['hero', 'list', 'Bandeau défilant', [['label' => 'KPANDJI DJETRAN'], ['label' => 'KPANDJI DJETRAN PLUS'], ['label' => 'KPANDJI LATHAYE'], ['label' => 'offre spe']], ['label' => 'Texte']],
+    'hero.show_pillars' => ['hero', 'text', 'Afficher les 4 piliers (1 = oui, 0 = non)', '0'],
+    'hero.pillars' => ['hero', 'list', 'Piliers de marque', [
+        ['code' => '01', 'label' => "Conçu en Côte d'Ivoire", 'detail' => 'Design et ingénierie pensés pour le continent.'],
+        ['code' => '02', 'label' => 'Production locale', 'detail' => 'Assemblage à Abidjan, savoir-faire ivoirien.'],
+        ['code' => '03', 'label' => 'Mobilité durable', 'detail' => 'Performance, sobriété et fiabilité au long cours.'],
+        ['code' => '04', 'label' => 'Garantie 3 ans ou 100 000 km', 'detail' => 'Sérénité totale et service après-vente premium.'],
+      ], ['code' => 'N°', 'label' => 'Titre', 'detail' => 'Détail']],
+
+    // ---------------- PROMOTION (section offres) ----------------
+    'promo.eyebrow' => ['promo', 'text', 'Surtitre (si aucune réduction %)', 'Offre limitée'],
+    'promo.eyebrow_pct' => ['promo', 'text', 'Surtitre avec réduction (:pct = pourcentage)', "Jusqu'à -:pct %"],
+    'promo.word1' => ['promo', 'text', 'Titre — mot blanc', 'Promotion'],
+    'promo.word2' => ['promo', 'text', 'Titre — mot doré', 'exceptionnelle'],
+    'promo.intro' => ['promo', 'textarea', 'Texte d\'introduction (vide = masqué)', ''],
+    'promo.until' => ['promo', 'text', 'Préfixe date de fin', "Offre valable jusqu'au"],
+    'promo.note' => ['promo', 'textarea', 'Note sous les modèles', 'Offre valable chez KPANDJI.'],
+    'promo.prev' => ['promo', 'text', 'Flèche précédente (accessibilité)', 'Modèle précédent'],
+    'promo.next' => ['promo', 'text', 'Flèche suivante (accessibilité)', 'Modèle suivant'],
+
+    // ---------------- ACCUEIL (sections basses) ----------------
+    'home.boxes' => ['home', 'list', 'Les 3 encadrés', [
+        ['n' => '01', 'title' => "Assemblé en Côte d'Ivoire", 'text' => 'Des véhicules pensés et assemblés pour nos routes.'],
+        ['n' => '02', 'title' => 'Prix réduits', 'text' => 'Une promotion exceptionnelle sur toute la gamme KPANDJI.'],
+        ['n' => '03', 'title' => 'Essai gratuit', 'text' => 'Réservez votre essai en quelques clics, un conseiller vous rappelle.'],
+      ], ['n' => 'N°', 'title' => 'Titre', 'text' => 'Texte']],
+    'home.banner_eyebrow' => ['home', 'text', 'Bannière dorée — surtitre', 'Offre limitée'],
+    'home.banner_title' => ['home', 'text', 'Bannière dorée — titre', "Profitez des prix réduits dès aujourd'hui"],
+    'home.banner_cta' => ['home', 'text', 'Bannière dorée — bouton', 'Réserver un essai'],
+    'home.banner_url' => ['home', 'url', 'Bannière dorée — lien', '/essai'],
+    'showroom.page_title' => ['home', 'text', 'ShowRoom — titre de l\'onglet', 'Nos modèles'],
+    'showroom.badge' => ['home', 'text', 'ShowRoom — badge', 'Promotion exceptionnelle'],
+    'showroom.title' => ['home', 'text', 'ShowRoom — titre', 'Le ShowRoom KPANDJI'],
+    'showroom.intro' => ['home', 'textarea', 'ShowRoom — introduction', 'Prix réduits sur toute la gamme. Découvrez chaque modèle et réservez votre essai.'],
+
+
+    // ---------------- PARALLAXE (accueil) ----------------
+    'parallax.eyebrow' => ['parallax', 'text', 'Surtitre des scènes', 'La gamme KPANDJI'],
+    'parallax.cars' => ['parallax', 'list', 'Modèles mis en scène (slugs, vide = 4 premiers avec photo)', [], ['slug' => 'Slug du modèle']],
+    'parallax.spec_label' => ['parallax', 'text', 'Libellé du point fort', 'Point fort'],
+    'parallax.cta' => ['parallax', 'text', 'Bouton des scènes', 'Découvrir le modèle'],
+    'parallax.gallery_eyebrow' => ['parallax', 'text', 'Galerie — surtitre', 'Galerie'],
+    'parallax.gallery_title' => ['parallax', 'text', 'Galerie — titre', 'Chaque détail compte'],
+    'parallax.quote' => ['parallax', 'textarea', 'Citation finale', "La force d'une racine, l'élan d'une nation."],
+    'parallax.quote_sub' => ['parallax', 'text', 'Sous-titre de la citation', "Des véhicules pensés et assemblés en Côte d'Ivoire."],
+    'parallax.quote_cta' => ['parallax', 'text', 'Bouton final — libellé', 'Réserver un essai'],
+    'parallax.quote_url' => ['parallax', 'url', 'Bouton final — lien', '/essai'],
+
+    // ---------------- PIED DE PAGE ----------------
+    'footer.strip_label' => ['footer', 'text', 'Bandeau promo — mot doré', 'Promotion en cours'],
+    'footer.strip_text' => ['footer', 'text', 'Bandeau promo — texte', '— prix réduits sur toute la gamme KPANDJI.'],
+    'footer.strip_cta' => ['footer', 'text', 'Bandeau promo — bouton', 'Voir les offres'],
+    'footer.strip_url' => ['footer', 'url', 'Bandeau promo — lien', '/#offres'],
+    'footer.tagline' => ['footer', 'text', 'Slogan (italique)', "La force d'une racine, l'élan d'une nation."],
+    'footer.about' => ['footer', 'textarea', 'Texte de présentation', "Constructeur & assembleur automobile en Côte d'Ivoire : DJETRAN, DJETRAN PLUS, LATHAYE, BANCO."],
+    'footer.col1_title' => ['footer', 'text', 'Colonne 1 — titre', 'Navigation'],
+    'footer.col1' => ['footer', 'list', 'Colonne 1 — liens', [$L('Accueil', '/'), $L('ShowRoom', '/showroom'), $L('Opportunités', '/opportunities'), $L('S.A.V.', '/sav'), $L('Contact', '/contact')], ['label' => 'Libellé', 'url' => 'Lien']],
+    'footer.col2_title' => ['footer', 'text', 'Colonne 2 — titre', 'KPANDJI'],
+    'footer.col2' => ['footer', 'list', 'Colonne 2 — liens', [$L('KPANDJI Automobiles', '/kpandji-automobiles'), $L('Eco-Kpandji', '/ecologie'), $L('Kpandji-Emplois', '/emplois'), $L('Réserver un essai', '/essai')], ['label' => 'Libellé', 'url' => 'Lien']],
+    'footer.copyright' => ['footer', 'text', 'Copyright (après « © année »)', 'KPANDJI Automobiles — Tous droits réservés'],
+
+    // ---------------- FORMULAIRE D'ESSAI ----------------
+    'form.page_title' => ['form', 'text', 'Titre de l\'onglet', "Demande d'essai"],
+    'form.eyebrow' => ['form', 'text', 'Surtitre', 'Contact'],
+    'form.title' => ['form', 'text', 'Titre', "Demande d'essai"],
+    'form.intro' => ['form', 'textarea', 'Introduction', "Réservez un essai ou demandez le prix promotionnel d'un modèle. Un conseiller vous rappelle rapidement."],
+    'form.type' => ['form', 'text', 'Champ « type de demande »', 'Type de demande'],
+    'form.type_essai' => ['form', 'text', 'Option essai', 'Essai du véhicule'],
+    'form.type_info' => ['form', 'text', 'Option information', 'Information / prix promo'],
+    'form.model' => ['form', 'text', 'Champ « modèle »', 'Modèle'],
+    'form.model_choose' => ['form', 'text', 'Modèle — option vide', '— Choisir un modèle —'],
+    'form.name' => ['form', 'text', 'Champ « nom »', 'Nom complet *'],
+    'form.phone' => ['form', 'text', 'Champ « téléphone »', 'Téléphone *'],
+    'form.email' => ['form', 'text', 'Champ « e-mail »', 'E-mail'],
+    'form.date' => ['form', 'text', 'Champ « date souhaitée »', 'Date souhaitée'],
+    'form.message' => ['form', 'text', 'Champ « message »', 'Message'],
+    'form.submit' => ['form', 'text', 'Bouton d\'envoi', 'Envoyer ma demande'],
+    'form.success' => ['form', 'textarea', 'Message de confirmation', 'Merci ! Votre demande a bien été enregistrée. Un conseiller KPANDJI vous contactera rapidement.'],
+
+    // ---------------- TEXTES DIVERS ----------------
+    'price.save' => ['misc', 'text', 'Ruban prix — « Économisez »', 'Économisez'],
+    'price.promo_ttc' => ['misc', 'text', 'Ruban prix — prix promo', 'Prix promo TTC'],
+    'price.promo_ttc_from' => ['misc', 'text', 'Ruban prix — prix promo multi-versions', 'Prix promo TTC · à partir de'],
+    'price.pack' => ['misc', 'text', 'Ruban prix — pack campagne', 'Pack campagne entretien inclus :'],
+    'price.from' => ['misc', 'text', 'Ruban prix — « À partir de »', 'À partir de'],
+    'price.discount' => ['misc', 'text', 'Ruban prix — remise %', 'Remise promotion'],
+    'price.special' => ['misc', 'text', 'Ruban prix — surtitre sans prix', 'Offre spéciale'],
+    'price.on_request' => ['misc', 'text', 'Ruban prix — sans prix', 'Prix promo sur demande'],
+    'card.corner' => ['misc', 'text', 'Carte — ruban d\'angle (sans %)', 'Promo'],
+    'card.cta' => ['misc', 'text', 'Carte — bouton essai', 'Réserver un essai'],
+    'card.discover' => ['misc', 'text', 'Carte — lien fiche', 'Découvrir →'],
+    'model.versions_title' => ['misc', 'text', 'Fiche modèle — titre versions', 'Versions & tarifs campagne'],
+    'model.th' => ['misc', 'list', 'Fiche modèle — colonnes du tableau', [['label' => 'Version'], ['label' => 'Motorisation'], ['label' => 'Boîte'], ['label' => 'Transmission'], ['label' => 'Prix promo TTC'], ['label' => 'Entretien'], ['label' => 'Pack campagne']], ['label' => 'Colonne']],
+    'model.warranty' => ['misc', 'text', 'Fiche modèle — préfixe garantie', 'Garantie constructeur :'],
+    'model.specs_title' => ['misc', 'text', 'Fiche modèle — titre fiche technique', 'Fiche technique'],
+    'model.box_header' => ['misc', 'text', 'Fiche modèle — bandeau encadré prix', 'Promotion exceptionnelle'],
+    'model.until' => ['misc', 'text', 'Fiche modèle — date de fin', "Offre valable jusqu'au"],
+    'model.box_text' => ['misc', 'textarea', 'Fiche modèle — texte encadré (:name = modèle)', "Prix réduits sur le :name. Un conseiller vous communique l'offre détaillée."],
+    'model.cta' => ['misc', 'text', 'Fiche modèle — bouton essai', 'Réserver un essai'],
+    'model.pdf' => ['misc', 'text', 'Fiche modèle — bouton PDF', 'Fiche technique (PDF)'],
+    'model.others' => ['misc', 'text', 'Fiche modèle — autres modèles', 'Autres modèles en promotion'],
+    'page.btn_models' => ['misc', 'text', 'Pages — bouton modèles', 'Voir les modèles'],
+    'page.btn_essai' => ['misc', 'text', 'Pages — bouton essai', 'Réserver un essai'],
+    'page.draft_note' => ['misc', 'text', 'Pages — mention si contenu vide', 'Page provisoire — contenu à compléter.'],
+    'countdown.labels' => ['misc', 'list', 'Compte à rebours — unités (section offres)', [['label' => 'Jours'], ['label' => 'Heures'], ['label' => 'Min'], ['label' => 'Sec']], ['label' => 'Unité']],
+  ],
+];

@@ -1,0 +1,60 @@
+@php($end = config('promo.ends_at') ? \Carbon\Carbon::parse(config('promo.ends_at'))->endOfDay() : null)
+@php($pct = config('promo.reduction_percent'))
+
+<section id="offres" class="relative scroll-mt-24 overflow-hidden border-b border-white/10 py-24 md:py-32">
+  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(900px_400px_at_50%_0%,rgba(201,169,98,0.16),transparent_70%)]"></div>
+  {!! cms_edit('promo') !!}
+  <div class="relative mx-auto max-w-[1400px] px-5 md:px-10">
+    <div class="mx-auto max-w-5xl text-center">
+      
+   
+
+<div class="flex flex-col items-center">
+  <div class="flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-kp-gold sm:text-xs">
+    <span class="h-px w-10 bg-gradient-to-r from-transparent to-kp-gold sm:w-20"></span>
+    <span class="relative flex h-2.5 w-2.5"><span class="kp-live absolute inline-flex h-full w-full animate-ping rounded-full bg-red-600/70"></span><span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-600"></span></span>
+    <span>@if(config('promo.reduction_percent') > 0) {{ str_replace(':pct', config('promo.reduction_percent'), content('promo.eyebrow_pct')) }} @else @content('promo.eyebrow') @endif</span>
+    <span class="h-px w-10 bg-gradient-to-l from-transparent to-kp-gold sm:w-20"></span>
+  </div>
+  <h2 class="mt-5 font-serif leading-[0.95]">
+    <span class="block text-4xl font-semibold tracking-[-0.02em] text-white sm:text-6xl lg:text-7xl">@content('promo.word1')</span>
+    <span class="kp-gold-shimmer mt-1 block bg-clip-text pb-2 text-4xl font-medium italic tracking-[-0.01em] text-transparent sm:text-6xl lg:text-7xl">@content('promo.word2')</span>
+  </h2>
+  <div class="mt-5 flex w-full max-w-xs items-center gap-3 sm:max-w-sm">
+    <span class="kp-shine h-px flex-1 bg-gradient-to-r from-transparent via-kp-gold to-kp-gold"></span>
+    <svg class="h-6 w-6 text-kp-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 17h14l-1.5-5.5A2 2 0 0 0 15.6 10H8.4a2 2 0 0 0-1.9 1.5L5 17Z"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/></svg>
+    <span class="kp-shine h-px flex-1 origin-right bg-gradient-to-l from-transparent via-kp-gold to-kp-gold" style="transform-origin:right"></span>
+  </div>
+  @if(content('promo.intro'))<p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/70 sm:text-lg">@content('promo.intro')</p>@endif
+</div>
+
+      @if($end && $end->isFuture())
+      <div x-data="{ t:0, end: {{ $end->timestamp * 1000 }}, tick(){ this.t = Math.max(0, this.end - Date.now()) } }" x-init="tick(); setInterval(() => tick(), 1000)" class="mt-10 inline-flex items-center gap-2 sm:gap-4">
+        @php($cdl = collect(content('countdown.labels'))->pluck('label')->values()->all())
+        @foreach([['j', 86400000, null, $cdl[0] ?? 'Jours'], ['h', 3600000, 24, $cdl[1] ?? 'Heures'], ['m', 60000, 60, $cdl[2] ?? 'Min'], ['s', 1000, 60, $cdl[3] ?? 'Sec']] as [$k, $div, $mod, $lbl])
+          <div class="min-w-[70px] rounded-xl border border-white/10 bg-white/[0.04] px-3 py-3 sm:min-w-[88px]">
+            <p class="font-serif text-3xl font-semibold tabular-nums text-white sm:text-4xl" x-text="String(Math.floor(t / {{ $div }}){{ $mod ? ' % '.$mod : '' }}).padStart(2,'0')">00</p>
+            <p class="mt-1 text-[10px] uppercase tracking-[0.25em] text-white/45">{{ $lbl }}</p>
+          </div>
+        @endforeach
+      </div>
+      <p class="mt-3 text-xs uppercase tracking-[0.25em] text-white/45">{{ content('promo.until') }} {{ $end->format('d/m/Y') }}</p>
+      @endif
+    </div>
+    <div class="relative mt-16" x-data="{ step(d){ const t=this.$refs.track; const c=t.querySelector('[data-slide]'); t.scrollBy({ left: d * ((c ? c.offsetWidth : 400) + 24), behavior: 'smooth' }) } }">
+      <div x-ref="track" class="kp-hide-scrollbar -mx-5 flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-5 pb-4 md:-mx-10 md:px-10">
+        @foreach($cars as $car)
+          <div data-slide class="w-[85vw] shrink-0 snap-start sm:w-[60vw] lg:w-[520px]">@include('partials.card')</div>
+        @endforeach
+        <div class="w-1 shrink-0" aria-hidden="true"></div>
+      </div>
+      <div class="pointer-events-none absolute inset-y-0 -left-5 w-10 bg-gradient-to-r from-kp-black to-transparent md:-left-10 md:w-20"></div>
+      <div class="pointer-events-none absolute inset-y-0 -right-5 w-10 bg-gradient-to-l from-kp-black to-transparent md:-right-10 md:w-20"></div>
+      <div class="mt-6 hidden justify-end gap-3 md:flex">
+        <button type="button" @click="step(-1)" aria-label="@content('promo.prev')" class="flex h-12 w-12 items-center justify-center rounded-full bg-kp-gold text-black shadow-[0_8px_30px_rgba(201,169,98,0.4)] transition hover:scale-105 hover:bg-white"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button type="button" @click="step(1)" aria-label="@content('promo.next')" class="flex h-12 w-12 items-center justify-center rounded-full bg-kp-gold text-black shadow-[0_8px_30px_rgba(201,169,98,0.4)] transition hover:scale-105 hover:bg-white"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+      </div>
+    </div>
+    <p class="mt-8 text-center text-xs text-white/35">@content('promo.note')</p>
+  </div>
+</section>

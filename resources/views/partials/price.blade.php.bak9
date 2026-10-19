@@ -1,0 +1,18 @@
+@php($promo = $car->discountedPrice())
+@php($pct = config('promo.reduction_percent'))
+<div class="kp-price">
+@if($promo && $car->price)
+  <p class="text-xs text-white/40 line-through decoration-kp-gold/70">{{ \App\Models\Car::fcfa($car->price) }}</p>
+  <p class="font-serif text-2xl font-semibold text-kp-gold">{{ \App\Models\Car::fcfa($promo) }}</p>
+  <p class="mt-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400">Économisez {{ \App\Models\Car::fcfa($car->price - $promo) }}</p>
+@elseif($car->price)
+  <p class="text-[10px] uppercase tracking-[0.2em] text-white/45">À partir de</p>
+  <p class="font-serif text-2xl font-semibold text-kp-gold">{{ \App\Models\Car::fcfa($car->price) }}</p>
+@elseif($pct > 0)
+  <p class="text-[10px] uppercase tracking-[0.2em] text-white/45">Remise promotion</p>
+  <p class="font-serif text-2xl font-semibold text-kp-gold">-{{ $pct }} %</p>
+@else
+  <p class="text-[10px] uppercase tracking-[0.2em] text-white/45">Offre spéciale</p>
+  <p class="font-serif text-xl font-semibold leading-tight text-kp-gold">Prix promo sur demande</p>
+@endif
+</div>

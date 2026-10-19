@@ -1,0 +1,14 @@
+@extends('layouts.app')
+@section('title', $title)
+@section('content')
+<section class="max-w-4xl mx-auto px-6 pt-20 pb-10 text-center">
+  <p class="text-kp-gold uppercase tracking-[0.3em] text-sm">{{ $kicker }}</p>
+  <h1 class="mt-3 font-serif text-5xl font-semibold text-white">{{ $title }}</h1>
+  <p class="mt-6 text-lg text-kp-sand/80">{{ $text }}</p>
+  <div class="mt-10 flex flex-wrap justify-center gap-3">
+    <a href="{{ route('cars.index') }}" class="rounded-full border border-white/20 px-6 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-white hover:border-white/40">Voir les modèles</a>
+    <a href="{{ route('essai') }}" class="rounded-full bg-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-black hover:bg-white/90">Réserver un essai</a>
+  </div>
+  <p class="mt-12 text-xs text-white/30">Page provisoire — contenu à compléter.</p>
+</section>
+@endsection

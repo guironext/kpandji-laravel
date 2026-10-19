@@ -1,0 +1,10 @@
+<a href="{{ route('cars.show', $car) }}" class="group block bg-kp-dark border border-white/10 hover:border-kp-gold transition relative overflow-hidden">
+  <span class="absolute top-4 left-4 z-10 bg-kp-gold text-kp-black text-xs font-bold uppercase px-3 py-1">Promo @if(config('promo.reduction_percent')>0) -{{ config('promo.reduction_percent') }}% @endif</span>
+  <div class="aspect-[16/10] bg-gradient-to-b from-black to-kp-dark flex items-center justify-center p-6"><img src="{{ asset($car->image) }}" alt="{{ $car->name }}" class="max-h-full object-contain group-hover:scale-105 transition duration-500"></div>
+  <div class="p-6">
+    <p class="text-xs uppercase tracking-widest text-kp-silver/60">{{ $car->category }}</p>
+    <h3 class="text-2xl font-extrabold text-white tracking-wider">{{ $car->name }}</h3>
+    <ul class="mt-3 text-sm text-kp-silver/80 space-y-1">@foreach(array_slice($car->highlights ?? [],0,3) as $h)<li>• {{ $h }}</li>@endforeach</ul>
+    <div class="mt-5 flex items-end justify-between">@include('partials.price')<span class="text-sm text-kp-gold group-hover:translate-x-1 transition">Découvrir →</span></div>
+  </div>
+</a>

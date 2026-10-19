@@ -1,0 +1,135 @@
+{{-- Parallaxe immersive (accueil) — données réelles des voitures, textes éditables (Admin › Contenu › Parallaxe) --}}
+@php
+  $real = fn ($p) => $p && ! str_ends_with($p, '.svg') && file_exists(public_path($p));
+  $wanted = collect(content('parallax.cars'))->pluck('slug')->filter()->values();
+  $pool = $cars->filter(fn ($c) => $real($c->image));
+  $scenes = $wanted->isNotEmpty() ? $wanted->map(fn ($s) => $pool->firstWhere('slug', $s))->filter()->values() : $pool->take(4)->values();
+  $gallery = $cars->flatMap(fn ($c) => [[$c->hero_image, $c->name], [$c->image, $c->name]])->filter(fn ($g) => $real($g[0]))->unique(fn ($g) => $g[0])->values();
+@endphp
+@if($scenes->isNotEmpty())
+<section id="kp-parallax" x-data="kpParallax()" x-init="init()" class="kp-px relative mt-24 bg-black" :class="staticMode && 'kp-px-static'">
+
+  {{-- ===== Scènes collantes ===== --}}
+  <div x-ref="scenes" class="kp-px-scenes relative" style="height: {{ $scenes->count() * 120 + 40 }}vh">
+    <div class="kp-px-sticky sticky top-0 h-svh overflow-hidden">
+      <div class="kp-px-streaks pointer-events-none absolute inset-0" aria-hidden="true" data-depth="0.3"><i></i><i></i><i></i><i></i><i></i></div>
+      @foreach($scenes as $i => $car)
+        @php($price = $car->discountedPrice() ?? $car->price)
+        <article data-scene class="kp-px-scene absolute inset-0 flex items-center" aria-label="{{ $car->name }}">
+          <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_62%_55%,rgba(201,169,98,0.20),transparent_70%)]"></div>
+          <p data-layer="name" class="kp-px-name pointer-events-none absolute left-0 top-1/2 w-max -translate-y-1/2 whitespace-nowrap font-serif font-semibold uppercase leading-none" aria-hidden="true">{{ $car->name }}</p>
+          <div class="relative mx-auto grid h-full w-full max-w-[1500px] items-center gap-6 px-5 md:grid-cols-[1fr_1.25fr] md:px-10">
+            <div class="kp-px-text relative z-10 order-2 pb-10 md:order-1 md:pb-0">
+              <p class="kp-px-r text-[11px] font-semibold uppercase tracking-[0.34em] text-kp-gold" style="--r:0">@content('parallax.eyebrow') · {{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}/{{ str_pad($scenes->count(), 2, '0', STR_PAD_LEFT) }}</p>
+              <h3 class="kp-px-mask mt-3 font-serif text-5xl font-semibold leading-[0.95] text-white sm:text-6xl lg:text-7xl"><span class="kp-px-r block" style="--r:1">{{ $car->name }}</span></h3>
+              @if($car->category)<p class="kp-px-r mt-3 text-sm uppercase tracking-[0.25em] text-white/50" style="--r:2">{{ $car->category }}</p>@endif
+              @if($car->description)<p class="kp-px-r mt-5 max-w-md text-[15px] leading-relaxed text-white/70" style="--r:3">{{ \Illuminate\Support\Str::limit($car->description, 170) }}</p>@endif
+              <div class="kp-px-r mt-6 flex flex-wrap items-end gap-x-8 gap-y-4" style="--r:4">
+                @if(! empty($car->highlights[0]))<div><p class="text-[10px] uppercase tracking-[0.3em] text-white/40">@content('parallax.spec_label')</p><p class="mt-1 text-base font-semibold text-white">{{ $car->highlights[0] }}</p></div>@endif
+                @if($price)<div><p class="text-[10px] uppercase tracking-[0.3em] text-white/40">{{ $car->discountedPrice() ? content('price.promo_ttc') : content('price.from') }}</p><p class="mt-1 font-serif text-3xl font-semibold text-kp-gold">{{ \App\Models\Car::fcfa($price) }}</p></div>@endif
+              </div>
+              <div class="kp-px-r mt-8 flex flex-wrap items-center gap-5" style="--r:5">
+                <a href="{{ route('cars.show', $car) }}" class="group inline-flex items-center gap-3 rounded-full bg-kp-gold px-7 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] text-black shadow-[0_10px_40px_rgba(201,169,98,0.35)] transition hover:bg-white">@content('parallax.cta')<span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span></a>
+                <a href="{{ route('essai', ['modele' => $car->slug]) }}" class="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/70 transition hover:text-kp-gold">@content('card.cta')</a>
+              </div>
+            </div>
+            <div class="relative order-1 flex h-[42vh] items-center justify-center md:order-2 md:h-[78vh]">
+              <span class="kp-px-floor" aria-hidden="true"></span>
+              <img data-layer="car" src="{{ asset($car->image) }}" alt="{{ $car->name }}" loading="lazy" class="kp-px-car relative h-full w-full object-contain">
+            </div>
+          </div>
+        </article>
+      @endforeach
+      {{-- progression --}}
+      <div class="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3 md:bottom-auto md:left-auto md:right-8 md:top-1/2 md:-translate-y-1/2 md:translate-x-0 md:flex-col" aria-hidden="true">
+        @foreach($scenes as $i => $car)<span data-dot class="kp-px-dot"></span>@endforeach
+      </div>
+      <div class="absolute inset-x-0 bottom-0 z-20 h-[2px] bg-white/10" aria-hidden="true"><div x-ref="bar" class="h-full w-full origin-left bg-gradient-to-r from-[#a8863f] via-kp-gold to-[#f1dca0]" style="transform:scaleX(0)"></div></div>
+    </div>
+  </div>
+
+  {{-- ===== Galerie horizontale pilotée par le scroll vertical ===== --}}
+  @if($gallery->count() >= 3)
+  <div x-ref="gal" class="kp-px-gal relative" style="height: 260vh">
+    <div class="kp-px-sticky sticky top-0 flex h-svh flex-col justify-center overflow-hidden">
+      <div class="mx-auto w-full max-w-[1500px] px-5 md:px-10">
+        <p class="text-[11px] font-semibold uppercase tracking-[0.34em] text-kp-gold">@content('parallax.gallery_eyebrow')</p>
+        <h3 class="mt-2 font-serif text-4xl font-semibold text-white md:text-6xl">@content('parallax.gallery_title')</h3>
+      </div>
+      <div x-ref="strip" class="kp-px-strip mt-10 flex w-max gap-6 pl-5 pr-[10vw] md:pl-10">
+        @foreach($gallery as $k => [$img, $name])
+          <figure class="kp-px-shot relative h-[46vh] shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-[radial-gradient(ellipse_at_center,rgba(201,169,98,0.16),#0b0b0b_70%)] {{ $k % 3 === 1 ? 'w-[70vw] md:w-[38vw] md:translate-y-10' : 'w-[80vw] md:w-[30vw]' }}">
+            <img src="{{ asset($img) }}" alt="{{ $name }}" loading="lazy" class="kp-px-shot-img h-full w-full {{ str_contains($img, '-hero') ? 'object-cover' : 'object-contain p-6' }}">
+            <figcaption class="absolute bottom-3 left-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-white/80">{{ $name }}</figcaption>
+          </figure>
+        @endforeach
+      </div>
+    </div>
+  </div>
+  @endif
+
+  {{-- ===== Citation / appel final ===== --}}
+  <div x-ref="quote" class="kp-px-quote relative flex min-h-[90vh] items-center overflow-hidden">
+    <div data-qbg class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_50%_50%,rgba(201,169,98,0.22),transparent_70%)]"></div>
+    <p data-qname class="kp-px-name pointer-events-none absolute left-1/2 top-1/2 w-max -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-serif font-semibold uppercase leading-none opacity-60" aria-hidden="true">KPANDJI</p>
+    <div class="relative mx-auto max-w-5xl px-5 text-center" :class="quoteIn && 'is-in'">
+      <span class="kp-px-q mx-auto block h-px w-24 bg-gradient-to-r from-transparent via-kp-gold to-transparent" style="--r:0"></span>
+      <blockquote class="kp-px-q mt-8 font-serif text-4xl italic leading-tight text-white md:text-6xl" style="--r:1">« @content('parallax.quote') »</blockquote>
+      <p class="kp-px-q mt-6 text-sm uppercase tracking-[0.3em] text-white/55" style="--r:2">@content('parallax.quote_sub')</p>
+      <a href="{{ cms_url(content('parallax.quote_url')) }}" class="kp-px-q kp-cta-pulse relative mt-10 inline-flex rounded-full bg-gradient-to-r from-[#e3c77f] via-kp-gold to-[#a8863f] px-10 py-4 text-xs font-bold uppercase tracking-[0.22em] text-black" style="--r:3">@content('parallax.quote_cta')</a>
+    </div>
+  </div>
+</section>
+<script>
+function kpParallax() {
+  return {
+    staticMode: false, quoteIn: false,
+    init() {
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) { this.staticMode = true; this.quoteIn = true; return }
+      const k = matchMedia('(max-width: 767px)').matches ? 0.5 : 1;   // parallaxe allégée sur mobile
+      const scenes = [...this.$el.querySelectorAll('[data-scene]')], dots = [...this.$el.querySelectorAll('[data-dot]')];
+      const streaks = this.$el.querySelector('.kp-px-streaks'), qname = this.$el.querySelector('[data-qname]'), qbg = this.$el.querySelector('[data-qbg]');
+      const S = this.$refs.scenes, G = this.$refs.gal, strip = this.$refs.strip, Q = this.$refs.quote;
+      const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+      let ticking = false, visible = true;
+      const frame = () => {
+        ticking = false; const vh = innerHeight;
+        // scènes
+        const r = S.getBoundingClientRect(), span = r.height - vh, n = scenes.length;
+        const prog = clamp(-r.top / span, 0, 1), p = prog * (n - 1);
+        scenes.forEach((el, i) => {
+          const d = p - i, a = Math.abs(d);
+          el.style.opacity = clamp(1 - a * 1.7, 0, 1);
+          el.style.transform = `translate3d(${(-d * 10 * k).toFixed(2)}vw,0,0)`;
+          el.style.visibility = a > 0.9 ? 'hidden' : 'visible';
+          el.classList.toggle('is-active', a < 0.35);
+          const nm = el.querySelector('[data-layer="name"]'), car = el.querySelector('[data-layer="car"]');
+          nm.style.transform = `translate3d(${(4 - d * 14 * k).toFixed(2)}vw,-50%,0)`;
+          car.style.transform = `translate3d(${(-d * 38 * k).toFixed(2)}vw,${(a * 4 * k).toFixed(2)}vh,0) scale(${(1.04 - a * 0.12).toFixed(3)}) rotate(${(-d * 3 * k).toFixed(2)}deg)`;
+        });
+        dots.forEach((dt, i) => dt.classList.toggle('on', Math.round(p) === i));
+        this.$refs.bar.style.transform = `scaleX(${prog.toFixed(4)})`;
+        streaks.style.transform = `translate3d(${(-prog * 30 * k).toFixed(2)}vw,0,0)`;
+        // galerie
+        if (G && strip) {
+          const g = G.getBoundingClientRect(), gp = clamp(-g.top / (g.height - vh), 0, 1);
+          const max = Math.max(0, strip.scrollWidth - innerWidth);
+          strip.style.transform = `translate3d(${(-gp * max).toFixed(1)}px,0,0)`;
+        }
+        // citation
+        const q = Q.getBoundingClientRect(), qp = clamp(1 - (q.top + q.height / 2) / (vh + q.height / 2), 0, 1);
+        qname.style.transform = `translate3d(calc(-50% + ${((0.5 - qp) * 30 * k).toFixed(2)}vw),-50%,0)`;
+        qbg.style.transform = `scale(${(0.9 + qp * 0.3).toFixed(3)})`;
+      };
+      const onScroll = () => { if (visible && !ticking) { ticking = true; requestAnimationFrame(frame) } };
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) onScroll() }, { rootMargin: '200px 0px' }).observe(this.$el);
+      new IntersectionObserver(([e]) => { if (e.isIntersecting) this.quoteIn = true; else if (e.boundingClientRect.top > 0) this.quoteIn = false }, { threshold: 0.35 }).observe(Q);
+      addEventListener('scroll', onScroll, { passive: true });
+      addEventListener('resize', onScroll, { passive: true });
+      frame();
+    },
+  }
+}
+</script>
+@endif

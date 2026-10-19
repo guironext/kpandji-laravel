@@ -1,0 +1,8 @@
+@php($promo = $car->discountedPrice())
+@if($promo && $car->price)
+  <div><span class="line-through text-kp-silver/50 text-sm">                                                                                          { \App\Models\Car::fcfa($promo) }}</span></div>
+@elseif($car->price)
+  <span class="text-kp-gold font-extrabold text-xl">{{ \App\Models\Car::fcfa($car->price) }}</span>
+@else
+  <span class="text-kp-gold font-semibold">Prix promo </span>
+@endif

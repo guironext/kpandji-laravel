@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>@yield('title', 'KPANDJI') — {{ config('promo.title') }}</title>
+<link rel="icon" href="{{ asset('images/logo.png') }}">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;800&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>[x-cloak]{display:none!important}@keyframes kpSlideL{from{opacity:0;transform:translateX(56px)}to{opacity:1;transform:none}}@keyframes kpSlideR{from{opacity:0;transform:translateX(-56px)}to{opacity:1;transform:none}}@keyframes kpLine{from{opacity:0;transform:scaleY(0)}to{opacity:1;transform:scaleY(1)}}.kp-slide-l{animation:kpSlideL .85s cubic-bezier(.22,1,.36,1) .18s both}.kp-slide-r{animation:kpSlideR .85s cubic-bezier(.22,1,.36,1) .18s both}.kp-line{animation:kpLine .55s cubic-bezier(.22,1,.36,1) both}@keyframes kp-menu-stagger{from{opacity:0;transform:translate3d(14px,0,0)}to{opacity:1;transform:none}}.kp-menu-panel[data-open=true] .kp-mobile-link{opacity:0;animation:kp-menu-stagger .55s cubic-bezier(.22,1,.36,1) forwards}@media (prefers-reduced-motion:reduce){.kp-menu-panel[data-open=true] .kp-mobile-link,.kp-slide-l,.kp-slide-r,.kp-line{opacity:1;animation:none}}@keyframes kpUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}.kp-up{animation:kpUp .8s cubic-bezier(.2,.7,.2,1) both}</style>
+<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script>tailwind.config={theme:{extend:{colors:{kp:{black:'#0a0a0a',dark:'#141414',gold:'#c9a962',sand:'#e8e4dc',silver:'#d4d4d8'}},fontFamily:{sans:['Montserrat','sans-serif'],serif:['"Playfair Display"','Georgia','serif']}}}}</script>
+</head>
+<body class="bg-kp-black text-kp-sand font-sans antialiased">
+@include('partials.header')
+<main>@yield('content')</main>
+<footer class="border-t border-white/10 mt-24">
+  <div class="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-3 gap-8 text-sm text-kp-silver/70">
+    <div><p class="text-white font-extrabold tracking-[0.3em]">KPANDJI</p><p class="mt-2">Véhicules assemblés en Côte d'Ivoire : DJETRAN, DJETRAN PLUS, LATHAYE, BANCO.</p></div>
+    <div><p class="text-kp-gold uppercase tracking-wider mb-2">Navigation</p><a class="block hover:text-white" href="{{ route('cars.index') }}">Nos modèles</a><a class="block hover:text-white" href="{{ route('contact') }}">Demande d'essai</a></div>
+    <div><p class="text-kp-gold uppercase tracking-wider mb-2">Promotion</p><p>Offre valable dans la limite des stocks disponibles. Prix communiqués par nos conseillers.</p></div>
+  </div>
+  <p class="text-center text-xs text-kp-silver/40 pb-6">© {{ date('Y') }} KPANDJI — Tous droits réservés</p>
+</footer>
+</body></html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>Contenu du site — KPANDJI Admin</title>
+<link rel="icon" href="http://127.0.0.1:8765/images/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{kp:{black:'#0a0a0a',dark:'#141414',gold:'#c9a962',sand:'#e8e4dc'}},fontFamily:{sans:['Montserrat','sans-serif'],serif:['"Playfair Display"','Georgia','serif']}}}}</script>
+<style>[x-cloak]{display:none!important}</style>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="min-h-screen bg-kp-black font-sans text-kp-sand antialiased">
+<div x-data="{ nav:false }" class="flex min-h-screen">
+  <aside class="fixed inset-y-0 left-0 z-40 w-64 -translate-x-full border-r border-white/10 bg-[#070707] transition-transform lg:static lg:translate-x-0" :class="nav && 'translate-x-0'">
+    <div class="flex items-center gap-3 border-b border-white/10 px-6 py-5"><img src="http://127.0.0.1:8765/images/logo.png" class="h-9 w-auto" alt=""><div><p class="font-serif text-lg text-white">KPANDJI</p><p class="text-[10px] uppercase tracking-[0.3em] text-kp-gold">Administration</p></div></div>
+    <nav class="space-y-1 p-4 text-sm">
+              <a href="http://127.0.0.1:8765/admin" class="flex items-center justify-between rounded-lg px-4 py-2.5 transition text-white/70 hover:bg-white/5 hover:text-white">Tableau de bord
+                  </a>
+              <a href="http://127.0.0.1:8765/admin/voitures" class="flex items-center justify-between rounded-lg px-4 py-2.5 transition text-white/70 hover:bg-white/5 hover:text-white">Voitures &amp; offres
+                  </a>
+              <a href="http://127.0.0.1:8765/admin/promotion" class="flex items-center justify-between rounded-lg px-4 py-2.5 transition text-white/70 hover:bg-white/5 hover:text-white">Promotion
+                  </a>
+              <a href="http://127.0.0.1:8765/admin/contenu" class="flex items-center justify-between rounded-lg px-4 py-2.5 transition bg-kp-gold text-black font-semibold">Contenu du site
+                  </a>
+              <a href="http://127.0.0.1:8765/admin/pages" class="flex items-center justify-between rounded-lg px-4 py-2.5 transition text-white/70 hover:bg-white/5 hover:text-white">Pages
+                  </a>
+              <a href="http://127.0.0.1:8765/admin/demandes" class="flex items-center justify-between rounded-lg px-4 py-2.5 transition text-white/70 hover:bg-white/5 hover:text-white">Demandes d&#039;essai
+                  </a>
+          </nav>
+    <div class="absolute inset-x-0 bottom-0 border-t border-white/10 p-4 text-xs">
+      <p class="truncate text-white/50">admin@kpandji.local</p>
+      <div class="mt-3 flex gap-2"><a href="http://127.0.0.1:8765" target="_blank" class="flex-1 rounded-full border border-white/15 py-2 text-center hover:border-kp-gold">Voir le site ↗</a>
+      <form method="POST" action="http://127.0.0.1:8765/admin/logout" class="flex-1"><input type="hidden" name="_token" value="VLECugoiZwH2Kyp6p7KXT0lQiY8s6JUZKFs8uz2e" autocomplete="off"><button class="w-full rounded-full bg-white/10 py-2 hover:bg-red-600">Déconnexion</button></form></div>
+    </div>
+  </aside>
+  <div class="min-w-0 flex-1">
+    <header class="sticky top-0 z-30 flex items-center justify-between border-b border-white/10 bg-kp-black/90 px-5 py-4 backdrop-blur lg:px-10">
+      <button class="rounded-lg border border-white/15 px-3 py-1.5 lg:hidden" @click="nav=!nav">☰</button>
+      <h1 class="font-serif text-2xl text-white">Contenu du site</h1>
+      <div><a href="http://127.0.0.1:8765" target="_blank" class="text-xs text-white/60 hover:text-white">Voir le site ↗</a></div>
+    </header>
+    <main class="p-5 lg:p-10">
+      <div class="mb-6 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-5 py-3 text-sm text-emerald-300">Contenu enregistré. Le site est à jour.</div>            <style>.kp-prose h2{font-size:1.3rem;font-weight:600}.kp-prose h3{font-size:1.1rem;font-weight:600}.kp-prose ul{list-style:disc;padding-left:1.2em}.kp-prose a{color:#c9a962;text-decoration:underline}</style>
+<div class="mb-6 flex flex-wrap gap-2">
+      <a href="http://127.0.0.1:8765/admin/contenu?tab=header" class="rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition border border-white/15 text-white/70 hover:border-kp-gold hover:text-white">Header</a>
+      <a href="http://127.0.0.1:8765/admin/contenu?tab=hero" class="rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition bg-kp-gold text-black">Hero</a>
+      <a href="http://127.0.0.1:8765/admin/contenu?tab=promo" class="rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition border border-white/15 text-white/70 hover:border-kp-gold hover:text-white">Promotion</a>
+      <a href="http://127.0.0.1:8765/admin/contenu?tab=home" class="rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition border border-white/15 text-white/70 hover:border-kp-gold hover:text-white">Accueil</a>
+      <a href="http://127.0.0.1:8765/admin/contenu?tab=footer" class="rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition border border-white/15 text-white/70 hover:border-kp-gold hover:text-white">Pied de page</a>
+      <a href="http://127.0.0.1:8765/admin/contenu?tab=form" class="rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition border border-white/15 text-white/70 hover:border-kp-gold hover:text-white">Formulaire</a>
+      <a href="http://127.0.0.1:8765/admin/contenu?tab=misc" class="rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition border border-white/15 text-white/70 hover:border-kp-gold hover:text-white">Textes divers</a>
+    <a href="http://127.0.0.1:8765/admin/pages" class="rounded-full border border-dashed border-white/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/60 hover:border-kp-gold hover:text-white">Pages →</a>
+</div>
+<p class="mb-6 max-w-3xl text-sm text-white/50">Les valeurs affichées sont celles du site. Cochez « Rétablir » pour revenir au texte d'origine. Liens acceptés : <code class="text-kp-gold">/showroom</code>, <code class="text-kp-gold">#offres</code>, <code class="text-kp-gold">https://…</code>.
+  </p>
+
+<form method="POST" enctype="multipart/form-data" action="http://127.0.0.1:8765/admin/contenu/hero" class="space-y-5">
+  <input type="hidden" name="_token" value="VLECugoiZwH2Kyp6p7KXT0lQiY8s6JUZKFs8uz2e" autocomplete="off"> <input type="hidden" name="_method" value="PUT">          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Vidéo de fond (MP4) <span class="ml-2 normal-case tracking-normal text-white/25">hero.video</span></p>
+              </div>
+
+              <div x-data="{ preview: 'http:\/\/127.0.0.1:8765\/video.mp4' }" class="mt-3 grid gap-4 md:grid-cols-[260px_1fr]">
+          <div class="flex aspect-video items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-black">
+            <video :src="preview" class="h-full w-full object-cover" muted autoplay loop playsinline></video>          </div>
+          <div class="space-y-3 text-sm">
+            <p class="text-white/45">Actuel : <code class="text-white/70">video.mp4</code></p>
+            <label class="block text-xs uppercase tracking-[0.2em] text-white/60">Téléverser un nouveau fichier (MP4/WebM — 200 Mo max)
+              <input type="file" name="f[hero__video]" accept="video/mp4,video/webm" @change="const fl = $event.target.files[0]; if (fl) preview = URL.createObjectURL(fl)" class="mt-2 block w-full text-xs text-white/60 file:mr-3 file:rounded-full file:border-0 file:bg-kp-gold file:px-4 file:py-2 file:text-xs file:font-semibold file:text-black"></label>
+            <label class="block text-xs uppercase tracking-[0.2em] text-white/60">…ou chemin / URL (laisser vide pour conserver le fichier actuel)
+              <input name="c[hero__video]" value="" placeholder="video.mp4" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold"></label>
+          </div>
+        </div>
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Badge doré <span class="ml-2 normal-case tracking-normal text-white/25">hero.badge</span></p>
+              </div>
+
+              <input name="c[hero__badge]" value="Offre exceptionnelle · Durée limitée" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold" >
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Surtitre à côté du badge (vide = masqué) <span class="ml-2 normal-case tracking-normal text-white/25">hero.eyebrow</span></p>
+              </div>
+
+              <input name="c[hero__eyebrow]" value="" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold" >
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Titre — ligne 1 (blanc) <span class="ml-2 normal-case tracking-normal text-white/25">hero.title1</span></p>
+              </div>
+
+              <input name="c[hero__title1]" value="KPANDJI" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold" >
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Titre — ligne 2 (doré italique) <span class="ml-2 normal-case tracking-normal text-white/25">hero.title2</span></p>
+              </div>
+
+              <input name="c[hero__title2]" value="Casse les prix !" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold" >
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Accroche sous le titre (vide = masquée) <span class="ml-2 normal-case tracking-normal text-white/25">hero.subline</span></p>
+              </div>
+
+              <textarea name="c[hero__subline]" rows="3" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold"></textarea>
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Carte offre — petit titre <span class="ml-2 normal-case tracking-normal text-white/25">hero.offer_label</span></p>
+              </div>
+
+              <input name="c[hero__offer_label]" value="L&#039;offre du moment" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold" >
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Carte offre — texte (si aucune réduction %) <span class="ml-2 normal-case tracking-normal text-white/25">hero.offer_text</span></p>
+              </div>
+
+              <input name="c[hero__offer_text]" value="Prix réduits sur tous nos modèles" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold" >
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Carte offre — texte avec réduction (:pct = pourcentage) <span class="ml-2 normal-case tracking-normal text-white/25">hero.offer_pct</span></p>
+              </div>
+
+              <input name="c[hero__offer_pct]" value="JUSQU&#039;À -:pct %" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold" >
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Carte offre — préfixe date de fin <span class="ml-2 normal-case tracking-normal text-white/25">hero.offer_until</span></p>
+              </div>
+
+              <input name="c[hero__offer_until]" value="Jusqu&#039;au" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold" >
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Pastilles avantages <span class="ml-2 normal-case tracking-normal text-white/25">hero.chips</span></p>
+              </div>
+
+                      <div x-data="{ rows: JSON.parse('[{\u0022label\u0022:\u0022Garantie 3 ans ou 100 000 km\u0022},{\u0022label\u0022:\u0022Batterie 8 ans ou 150 000 km\u0022}]'), blank: JSON.parse('{\u0022label\u0022:\u0022\u0022}') }" class="mt-3">
+          <input type="hidden" name="c[hero__chips]" :value="JSON.stringify(rows)">
+          <template x-for="(row, i) in rows" :key="i">
+            <div class="mb-2 flex flex-wrap items-end gap-2 rounded-xl border border-white/10 bg-black/40 p-3">
+                              <label class="min-w-[90px] flex-1 text-[10px] uppercase tracking-[0.15em] text-white/40">Texte
+                                      <input x-model="row.label" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold !mt-1 !py-2">
+                                  </label>
+                            <div class="flex gap-1 pb-1">
+                <button type="button" @click="if(i>0){ const r = rows.splice(i,1)[0]; rows.splice(i-1,0,r) }" class="rounded-lg border border-white/15 px-2.5 py-2 text-xs hover:border-kp-gold" title="Monter">↑</button>
+                <button type="button" @click="if(i<rows.length-1){ const r = rows.splice(i,1)[0]; rows.splice(i+1,0,r) }" class="rounded-lg border border-white/15 px-2.5 py-2 text-xs hover:border-kp-gold" title="Descendre">↓</button>
+                <button type="button" @click="rows.splice(i,1)" class="rounded-lg border border-white/15 px-2.5 py-2 text-xs text-red-400 hover:border-red-500" title="Supprimer">✕</button>
+              </div>
+            </div>
+          </template>
+          <button type="button" @click="rows.push(Object.assign({}, blank, {}))" class="mt-1 rounded-full border border-dashed border-white/25 px-4 py-2 text-xs text-white/70 hover:border-kp-gold hover:text-white">+ Ajouter</button>
+        </div>
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Bouton doré — libellé <span class="ml-2 normal-case tracking-normal text-white/25">hero.cta1_label</span></p>
+              </div>
+
+              <input name="c[hero__cta1_label]" value="Voir les offres" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold" >
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Bouton doré — lien <span class="ml-2 normal-case tracking-normal text-white/25">hero.cta1_url</span></p>
+              </div>
+
+              <input name="c[hero__cta1_url]" value="#offres" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold"  placeholder="/page, #ancre ou https://…" >
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Bouton contour — libellé <span class="ml-2 normal-case tracking-normal text-white/25">hero.cta2_label</span></p>
+              </div>
+
+              <input name="c[hero__cta2_label]" value="Réserver un essai" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold" >
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Bouton contour — lien <span class="ml-2 normal-case tracking-normal text-white/25">hero.cta2_url</span></p>
+              </div>
+
+              <input name="c[hero__cta2_url]" value="/essai" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold"  placeholder="/page, #ancre ou https://…" >
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Mention légale <span class="ml-2 normal-case tracking-normal text-white/25">hero.legal</span></p>
+              </div>
+
+              <input name="c[hero__legal]" value="* Offre valable dans la limite des stocks disponibles." class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold" >
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Bandeau défilant <span class="ml-2 normal-case tracking-normal text-white/25">hero.marquee</span></p>
+              </div>
+
+                      <div x-data="{ rows: JSON.parse('[{\u0022label\u0022:\u0022KPANDJI DJETRAN\u0022},{\u0022label\u0022:\u0022KPANDJI DJETRAN PLUS\u0022},{\u0022label\u0022:\u0022KPANDJI LATHAYE\u0022},{\u0022label\u0022:\u0022offre spe\u0022}]'), blank: JSON.parse('{\u0022label\u0022:\u0022\u0022}') }" class="mt-3">
+          <input type="hidden" name="c[hero__marquee]" :value="JSON.stringify(rows)">
+          <template x-for="(row, i) in rows" :key="i">
+            <div class="mb-2 flex flex-wrap items-end gap-2 rounded-xl border border-white/10 bg-black/40 p-3">
+                              <label class="min-w-[90px] flex-1 text-[10px] uppercase tracking-[0.15em] text-white/40">Texte
+                                      <input x-model="row.label" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold !mt-1 !py-2">
+                                  </label>
+                            <div class="flex gap-1 pb-1">
+                <button type="button" @click="if(i>0){ const r = rows.splice(i,1)[0]; rows.splice(i-1,0,r) }" class="rounded-lg border border-white/15 px-2.5 py-2 text-xs hover:border-kp-gold" title="Monter">↑</button>
+                <button type="button" @click="if(i<rows.length-1){ const r = rows.splice(i,1)[0]; rows.splice(i+1,0,r) }" class="rounded-lg border border-white/15 px-2.5 py-2 text-xs hover:border-kp-gold" title="Descendre">↓</button>
+                <button type="button" @click="rows.splice(i,1)" class="rounded-lg border border-white/15 px-2.5 py-2 text-xs text-red-400 hover:border-red-500" title="Supprimer">✕</button>
+              </div>
+            </div>
+          </template>
+          <button type="button" @click="rows.push(Object.assign({}, blank, {}))" class="mt-1 rounded-full border border-dashed border-white/25 px-4 py-2 text-xs text-white/70 hover:border-kp-gold hover:text-white">+ Ajouter</button>
+        </div>
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Afficher les 4 piliers (1 = oui, 0 = non) <span class="ml-2 normal-case tracking-normal text-white/25">hero.show_pillars</span></p>
+              </div>
+
+              <input name="c[hero__show_pillars]" value="0" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold" >
+          </section>
+          <section class="rounded-2xl border border-white/10 bg-white/[0.02] p-5">
+      <div class="flex items-start justify-between gap-4">
+        <p class="block text-xs uppercase tracking-[0.2em] text-white/60">Piliers de marque <span class="ml-2 normal-case tracking-normal text-white/25">hero.pillars</span></p>
+              </div>
+
+                      <div x-data="{ rows: JSON.parse('[{\u0022code\u0022:\u002201\u0022,\u0022label\u0022:\u0022Conçu en Côte d\\u0027Ivoire\u0022,\u0022detail\u0022:\u0022Design et ingénierie pensés pour le continent.\u0022},{\u0022code\u0022:\u002202\u0022,\u0022label\u0022:\u0022Production locale\u0022,\u0022detail\u0022:\u0022Assemblage à Abidjan, savoir-faire ivoirien.\u0022},{\u0022code\u0022:\u002203\u0022,\u0022label\u0022:\u0022Mobilité durable\u0022,\u0022detail\u0022:\u0022Performance, sobriété et fiabilité au long cours.\u0022},{\u0022code\u0022:\u002204\u0022,\u0022label\u0022:\u0022Garantie 3 ans ou 100 000 km\u0022,\u0022detail\u0022:\u0022Sérénité totale et service après-vente premium.\u0022}]'), blank: JSON.parse('{\u0022code\u0022:\u0022\u0022,\u0022label\u0022:\u0022\u0022,\u0022detail\u0022:\u0022\u0022}') }" class="mt-3">
+          <input type="hidden" name="c[hero__pillars]" :value="JSON.stringify(rows)">
+          <template x-for="(row, i) in rows" :key="i">
+            <div class="mb-2 flex flex-wrap items-end gap-2 rounded-xl border border-white/10 bg-black/40 p-3">
+                              <label class="min-w-[90px] w-24 text-[10px] uppercase tracking-[0.15em] text-white/40">N°
+                                      <input x-model="row.code" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold !mt-1 !py-2">
+                                  </label>
+                              <label class="min-w-[90px] flex-1 text-[10px] uppercase tracking-[0.15em] text-white/40">Titre
+                                      <input x-model="row.label" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold !mt-1 !py-2">
+                                  </label>
+                              <label class="min-w-[90px] flex-1 text-[10px] uppercase tracking-[0.15em] text-white/40">Détail
+                                      <input x-model="row.detail" class="mt-2 w-full rounded-lg border border-white/15 bg-black px-4 py-3 text-sm text-white outline-none focus:border-kp-gold !mt-1 !py-2">
+                                  </label>
+                            <div class="flex gap-1 pb-1">
+                <button type="button" @click="if(i>0){ const r = rows.splice(i,1)[0]; rows.splice(i-1,0,r) }" class="rounded-lg border border-white/15 px-2.5 py-2 text-xs hover:border-kp-gold" title="Monter">↑</button>
+                <button type="button" @click="if(i<rows.length-1){ const r = rows.splice(i,1)[0]; rows.splice(i+1,0,r) }" class="rounded-lg border border-white/15 px-2.5 py-2 text-xs hover:border-kp-gold" title="Descendre">↓</button>
+                <button type="button" @click="rows.splice(i,1)" class="rounded-lg border border-white/15 px-2.5 py-2 text-xs text-red-400 hover:border-red-500" title="Supprimer">✕</button>
+              </div>
+            </div>
+          </template>
+          <button type="button" @click="rows.push(Object.assign({}, blank, {}))" class="mt-1 rounded-full border border-dashed border-white/25 px-4 py-2 text-xs text-white/70 hover:border-kp-gold hover:text-white">+ Ajouter</button>
+        </div>
+          </section>
+    <div class="sticky bottom-0 -mx-5 flex justify-end border-t border-white/10 bg-kp-black/95 px-5 py-4 backdrop-blur lg:-mx-10 lg:px-10">
+    <button class="rounded-full bg-kp-gold px-8 py-3 text-xs font-bold uppercase tracking-[0.2em] text-black hover:bg-white">Enregistrer « Hero »</button>
+  </div>
+</form>
+    </main>
+  </div>
+</div>
+</body></html>

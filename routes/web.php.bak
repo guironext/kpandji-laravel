@@ -1,0 +1,8 @@
+<?php
+use App\Http\Controllers\SiteController;
+use Illuminate\Support\Facades\Route;
+Route::get('/', [SiteController::class, 'home'])->name('home');
+Route::get('/modeles', [SiteController::class, 'index'])->name('cars.index');
+Route::get('/modeles/{car}', [SiteController::class, 'show'])->name('cars.show');
+Route::get('/demande-essai', [SiteController::class, 'contact'])->name('contact');
+Route::post('/demande-essai', [SiteController::class, 'store'])->name('contact.store');

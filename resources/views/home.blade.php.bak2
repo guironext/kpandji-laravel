@@ -1,0 +1,42 @@
+@extends('layouts.app')
+@section('title','Accueil')
+@section('content')
+<section id="promotion" class="relative overflow-hidden">
+  <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,rgba(201,169,98,0.18),transparent_60%)]"></div>
+  <div class="max-w-[1440px] mx-auto px-4 lg:px-8 py-16 lg:py-24 grid lg:grid-cols-2 gap-12 items-center">
+    <div class="kp-up">
+      <span class="inline-flex items-center gap-2 rounded-full border border-kp-gold/40 bg-kp-gold/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-kp-gold">● Offre limitée @if(config('promo.reduction_percent')>0) · jusqu'à -{{ config('promo.reduction_percent') }} % @endif</span>
+      <h1 class="mt-6 text-4xl sm:text-5xl lg:text-[60px] font-extrabold leading-[1.05] tracking-tight text-white text-balance">KPANDJI baisse ses prix sur toute la gamme</h1>
+      <p class="mt-6 max-w-xl text-lg text-kp-sand/80 text-pretty">{{ config('promo.subtitle') }} DJETRAN, DJETRAN PLUS, LATHAYE et BANCO : des véhicules assemblés en Côte d'Ivoire, désormais plus accessibles.</p>
+      <form action="{{ route('contact') }}" method="GET" class="mt-8 flex flex-col sm:flex-row gap-3 max-w-xl">
+        <select name="modele" class="flex-1 rounded-full bg-kp-dark border border-white/15 px-5 py-3.5 text-white focus:border-kp-gold outline-none">
+          <option value="">Choisissez votre modèle</option>
+          @foreach($cars as $c)<option value="{{ $c->slug }}">{{ $c->name }}</option>@endforeach
+        </select>
+        <button class="rounded-full bg-kp-gold px-7 py-3.5 font-semibold text-kp-black hover:bg-white transition">Réserver un essai</button>
+      </form>
+      <a href="{{ route('cars.index') }}" class="mt-5 inline-block text-sm text-white/70 hover:text-kp-gold">Découvrir les modèles en promotion →</a>
+    </div>
+    <div class="kp-up [animation-delay:.15s]">
+      <div class="relative group mx-auto w-full max-w-[800px] aspect-[4/3]" x-data="{ playing:true, toggle(){ const v=this.$refs.v; v.paused ? (v.play(), this.playing=true) : (v.pause(), this.playing=false) }, init(){ if (matchMedia('(prefers-reduced-motion: reduce)').matches){ this.$refs.v.pause(); this.playing=false } } }">
+        <video x-ref="v" autoplay loop muted playsinline poster="{{ asset('images/cars/djetran-plus-hero.jpg') }}" class="w-full h-full object-cover rounded-lg shadow-2xl ring-1 ring-white/10">
+          <source src="{{ asset('videos/djetran-plus.mp4') }}" type="video/mp4">
+        </video>
+        <div class="absolute left-5 bottom-5 rounded-lg bg-kp-black/80 backdrop-blur px-4 py-3"><p class="text-xs uppercase tracking-widest text-kp-gold">En promotion</p><p class="font-extrabold text-white">DJETRAN PLUS</p></div>
+        <button type="button" @click="toggle" :aria-label="playing ? 'Mettre la vidéo en pause' : 'Lire la vidéo'" class="md:opacity-0 group-hover:opacity-100 absolute bottom-5 right-5 size-10 rounded-full bg-white/90 text-kp-black flex items-center justify-center transition">
+          <span x-show="playing">❚❚</span><span x-show="!playing" x-cloak>▶</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="max-w-7xl mx-auto px-6 mt-20">
+  <div class="flex items-end justify-between mb-10"><div><p class="text-kp-gold uppercase tracking-[0.3em] text-sm">La gamme</p><h2 class="text-4xl font-extrabold text-white mt-2">Nos modèles en promotion</h2></div><a href="{{ route('cars.index') }}" class="text-kp-gold hidden md:block">Tous les modèles →</a></div>
+  <div class="grid md:grid-cols-2 gap-8">@foreach($cars as $car) @include('partials.card') @endforeach</div>
+</section>
+<section class="max-w-7xl mx-auto px-6 mt-24 grid md:grid-cols-3 gap-6 text-center">
+  @foreach([['Assemblé en Côte d\'Ivoire','Des véhicules pensés pour nos routes.'],['Prix réduits','Une promotion sur toute la gamme KPANDJI.'],['Essai gratuit','Réservez votre essai en quelques clics.']] as [$t,$d])
+  <div class="border border-white/10 p-8"><p class="text-kp-gold text-xl font-bold">{{ $t }}</p><p class="mt-2 text-kp-silver/70">{{ $d }}</p></div>
+  @endforeach
+</section>
+@endsection

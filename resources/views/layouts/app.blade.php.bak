@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>@yield('title', 'KPANDJI') — {{ config('promo.title') }}</title>
+<link rel="icon" href="{{ asset('images/logo.png') }}">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{colors:{kp:{black:'#0a0a0a',dark:'#141414',gold:'#c9a962',sand:'#e8e4dc',silver:'#d4d4d8'}},fontFamily:{sans:['Montserrat','sans-serif']}}}}</script>
+</head>
+<body class="bg-kp-black text-kp-sand font-sans antialiased">
+<div class="bg-kp-gold text-kp-black text-center text-sm font-semibold py-2 px-4">
+  🔥 {{ config('promo.title') }} — prix réduits sur toute la gamme @if(config('promo.reduction_percent') > 0) : jusqu'à -{{ config('promo.reduction_percent') }} % @endif
+  @if(config('promo.ends_at')) · jusqu'au {{ \Carbon\Carbon::parse(config('promo.ends_at'))->translatedFormat('d/m/Y') }} @endif
+</div>
+<header class="sticky top-0 z-40 bg-kp-black/90 backdrop-blur border-b border-white/10">
+  <nav class="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+    <a href="{{ route('home') }}" class="flex items-center gap-3"><img src="{{ asset('images/logo.png') }}" class="h-9 w-9 rounded" alt="KPANDJI"><span class="text-xl font-extrabold tracking-[0.3em] text-white">KPANDJI</span></a>
+    <div class="flex items-center gap-6 text-sm uppercase tracking-wider">
+      <a href="{{ route('home') }}" class="hover:text-kp-gold {{ request()->routeIs('home') ? 'text-kp-gold' : '' }}">Accueil</a>
+      <a href="{{ route('cars.index') }}" class="hover:text-kp-gold {{ request()->routeIs('cars.*') ? 'text-kp-gold' : '' }}">Modèles</a>
+      <a href="{{ route('contact') }}" class="border border-kp-gold text-kp-gold px-4 py-2 hover:bg-kp-gold hover:text-kp-black transition">Demande d'essai</a>
+    </div>
+  </nav>
+</header>
+<main>@yield('content')</main>
+<footer class="border-t border-white/10 mt-24">
+  <div class="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-3 gap-8 text-sm text-kp-silver/70">
+    <div><p class="text-white font-extrabold tracking-[0.3em]">KPANDJI</p><p class="mt-2">Véhicules assemblés en Côte d'Ivoire : DJETRAN, DJETRAN PLUS, LATHAYE, BANCO.</p></div>
+    <div><p class="text-kp-gold uppercase tracking-wider mb-2">Navigation</p><a class="block hover:text-white" href="{{ route('cars.index') }}">Nos modèles</a><a class="block hover:text-white" href="{{ route('contact') }}">Demande d'essai</a></div>
+    <div><p class="text-kp-gold uppercase tracking-wider mb-2">Promotion</p><p>Offre valable dans la limite des stocks disponibles. Prix communiqués par nos conseillers.</p></div>
+  </div>
+  <p class="text-center text-xs text-kp-silver/40 pb-6">© {{ date('Y') }} KPANDJI — Tous droits réservés</p>
+</footer>
+</body></html>

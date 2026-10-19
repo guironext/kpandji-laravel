@@ -1,0 +1,143 @@
+{{-- Port Blade/Alpine de KpHero (kpandji2026 final/components/kp/KpHero.tsx) --}}
+@php
+  $pillars = [
+    ['01', "Conçu en Côte d'Ivoire", "Design et ingénierie pensés pour le continent."],
+    ['02', 'Production locale', "Assemblage à Abidjan, savoir-faire ivoirien."],
+    ['03', 'Mobilité durable', "Performance, sobriété et fiabilité au long cours."],
+    ['04', 'Garantie 3 ans ou 100 000 km', "Sérénité totale et service après-vente premium."],
+  ];
+  $marquee = ['KPANDJI DJETRAN', 'KPANDJI DJETRAN PLUS', 'KPANDJI LATHAYE', "MADE IN CÔTE D'IVOIRE"];
+@endphp
+<section id="accueil" class="relative -mt-14 sm:-mt-16 md:-mt-[125px] flex min-h-svh scroll-mt-28 flex-col overflow-hidden"
+  x-data="kpHero()" x-init="init()" x-ref="wrap">
+
+  {{-- Vidéo de fond + overlays cinématographiques --}}
+  <div class="absolute inset-0 z-0">
+    <div class="absolute inset-0 origin-center will-change-transform"
+         :style="`transform: scale(${1 + progress * 0.06}) translate3d(0, ${progress * 48}px, 0); transition: transform 0.1s linear`">
+      <video class="h-full w-full object-cover object-[center_35%] sm:object-center" autoplay muted loop playsinline preload="metadata">
+        <source src="{{ asset('video.mp4') }}" type="video/mp4">
+      </video>
+    </div>
+    <div class="pointer-events-none absolute inset-0 h-full w-full" :style="`opacity: ${0.35 + progress * 0.35}`">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/25 to-black/95 sm:from-black/55 sm:via-black/20"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(1200px_520px_at_22%_18%,rgba(201,169,98,0.20),transparent_62%)]"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(900px_500px_at_85%_80%,rgba(201,169,98,0.10),transparent_60%)]"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(1200px_800px_at_50%_50%,transparent_55%,rgba(0,0,0,0.78)_100%)]"></div>
+      <div class="kp-grain absolute inset-0 opacity-[0.28] md:opacity-[0.33]"></div>
+    </div>
+  </div>
+
+  {{-- Texte éditorial + CTA — slide-up en cascade --}}
+  <div class="relative z-10 mt-[4.75rem] flex flex-1 items-end sm:mt-20 md:mt-0">
+    <div class="mx-auto w-full max-w-[1600px] px-4 pb-6 pt-10 sm:px-5 sm:pb-10 sm:pt-20 md:px-10 md:pb-14 md:pt-28"
+         :class="copyPhase === 'visible' ? 'kp-copy-visible' : 'kp-copy-hidden'">
+      <h1 class="max-w-[12ch] font-serif text-[clamp(2.15rem,10vw,6rem)] font-medium leading-[1.02] tracking-[-0.025em] text-white sm:max-w-[18ch]">
+        <span class="kp-line block" style="--i:0">KPANDJI AUTOMOBILES</span>
+        <span class="kp-line mt-1 block sm:mt-0" style="--i:1">
+          <span class="bg-gradient-to-r from-white via-white to-kp-gold bg-clip-text text-[clamp(1.2rem,5.6vw,3rem)] text-transparent">Constructeur &amp; Assembleur automobile</span>
+        </span>
+      </h1>
+      <p class="kp-line mt-5 max-w-[34ch] text-[15px] font-light italic leading-relaxed text-white/75 sm:mt-6 sm:max-w-xl sm:text-base md:mt-8 md:text-lg" style="--i:2">
+        Ingénierie, assemblage et mobilité durable — une signature africaine pour des véhicules pensés pour exiger le meilleur.
+      </p>
+      <div class="kp-line mt-7 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-5 md:mt-12" style="--i:3">
+        <a href="{{ route('showroom') }}" class="group inline-flex w-full items-center justify-center gap-3 rounded-full bg-white px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-black transition duration-300 ease-out hover:scale-[1.02] hover:bg-white/95 active:scale-[0.98] sm:w-auto sm:justify-start sm:px-7 md:px-8 md:text-[12px]">
+          <span>Découvrir nos véhicules</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24" class="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {{-- Piliers de marque --}}
+  <div class="relative z-10 border-t border-white/10 bg-black/30 backdrop-blur-[2px]">
+    <div class="kp-hide-scrollbar flex snap-x snap-mandatory gap-0 overflow-x-auto px-4 md:hidden" :class="pillarsShown ? 'kp-pillars-on' : 'kp-pillars-off'">
+      @foreach($pillars as $p)
+        <div class="kp-pillar flex w-[78vw] max-w-[280px] shrink-0 snap-start items-start gap-3 border-r border-white/10 py-4 pr-5 last:border-r-0" style="--p:{{ $loop->index }}">
+          <span class="mt-0.5 font-serif text-base text-kp-gold/85">{{ $p[0] }}</span>
+          <div class="min-w-0">
+            <p class="text-[11px] font-semibold uppercase leading-snug tracking-[0.16em] text-white">{{ $p[1] }}</p>
+            <p class="mt-1 text-[11px] leading-snug text-white/55">{{ $p[2] }}</p>
+          </div>
+        </div>
+      @endforeach
+    </div>
+    <div class="mx-auto hidden w-full max-w-[1600px] grid-cols-4 divide-x divide-white/10 px-5 md:grid md:px-10" :class="pillarsShown ? 'kp-pillars-on' : 'kp-pillars-off'">
+      @foreach($pillars as $p)
+        <div class="kp-pillar flex items-center gap-4 py-6 {{ $loop->first ? '' : 'md:pl-6 lg:pl-8' }}" style="--p:{{ $loop->index }}">
+          <span class="font-serif text-lg text-kp-gold/85">{{ $p[0] }}</span>
+          <div class="min-w-0">
+            <p class="text-[12px] font-semibold uppercase tracking-[0.22em] text-white">{{ $p[1] }}</p>
+            <p class="kp-clamp-2 mt-0.5 text-[12px] leading-snug text-white/55">{{ $p[2] }}</p>
+          </div>
+        </div>
+      @endforeach
+    </div>
+
+    {{-- Marquee --}}
+    <div class="relative overflow-hidden border-t border-white/10 transition-opacity duration-800" :class="pillarsShown ? 'opacity-100' : 'opacity-0'" style="transition: opacity .8s cubic-bezier(.22,1,.36,1)">
+      <div class="pointer-events-none">
+        <div class="kp-marquee-track flex w-max items-center gap-10 py-2.5 will-change-transform sm:gap-12 sm:py-3 md:gap-16 md:py-4">
+          @foreach(array_merge($marquee, $marquee) as $label)
+            <span class="flex items-center gap-10 text-[10px] uppercase tracking-[0.4em] text-white/45 sm:gap-12 sm:text-[11px] sm:tracking-[0.5em] md:text-[12px]">
+              <span>{{ $label }}</span><span class="text-kp-gold">◆</span>
+            </span>
+          @endforeach
+        </div>
+      </div>
+      <div class="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-black/80 to-transparent sm:w-12 md:w-24"></div>
+      <div class="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-black/80 to-transparent sm:w-12 md:w-24"></div>
+    </div>
+  </div>
+
+  {{-- Indicateur Scroll (desktop) --}}
+  <div class="pointer-events-none absolute right-6 top-1/2 z-10 hidden -translate-y-1/2 lg:block">
+    <div class="flex flex-col items-center gap-3">
+      <span class="text-[10px] uppercase tracking-[0.4em] text-white/45 [writing-mode:vertical-rl]">Scroll</span>
+      <div class="relative h-24 w-px overflow-hidden bg-white/15">
+        <div class="absolute left-0 top-0 w-px bg-kp-gold" :style="`height: ${Math.max(8, Math.round(progress * 100))}%; transition: height 0.15s linear`"></div>
+      </div>
+      <span class="kp-scroll-dot block h-1.5 w-1.5 rounded-full bg-white/80"></span>
+    </div>
+  </div>
+</section>
+<script>
+function kpHero() {
+  const HOLD_MS = 6500, EXIT_MS = 700, RESTART_GAP_MS = 280;
+  return {
+    progress: 0, watching: true, copyPhase: 'hidden', pillarsShown: false, reduce: false, timer: null, cancelled: false,
+    onScroll() {
+      const el = this.$refs.wrap; if (!el) return;
+      const rect = el.getBoundingClientRect();
+      this.progress = Math.min(1, Math.max(0, -rect.top / ((rect.height || 1) * 0.65)));
+    },
+    async loop() {
+      this.copyPhase = 'visible'; this.pillarsShown = true;
+      await this.wait(HOLD_MS); if (this.cancelled || !this.watching) return;
+      this.copyPhase = 'hidden';
+      await this.wait(EXIT_MS + RESTART_GAP_MS); if (this.cancelled || !this.watching) return;
+      this.loop();
+    },
+    wait(ms) { return new Promise(r => { this.timer = setTimeout(r, ms) }) },
+    startCycle() {
+      clearTimeout(this.timer); this.cancelled = false;
+      if (this.reduce) { this.copyPhase = 'visible'; this.pillarsShown = true; return }
+      if (!this.watching) return;
+      this.loop();
+    },
+    init() {
+      this.reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      this.onScroll();
+      window.addEventListener('scroll', () => this.onScroll(), { passive: true });
+      const io = new IntersectionObserver(([e]) => {
+        this.watching = e.isIntersecting && e.intersectionRatio >= 0.4;
+        if (this.watching) this.startCycle();
+        else { this.cancelled = true; clearTimeout(this.timer) }
+      }, { threshold: [0.25, 0.4, 0.55, 0.7] });
+      io.observe(this.$refs.wrap);
+      this.startCycle();
+    },
+  }
+}
+</script>

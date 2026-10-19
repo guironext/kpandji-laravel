@@ -1,0 +1,26 @@
+@php($promo = $car->discountedPrice())
+@php($pct = (float) config('promo.reduction_percent'))
+{{-- Ruban rouge promo — prix issus de « TARIF CAMPAGNE V.xlsx », aucun prix inventé --}}
+<div class="kp-ribbon">
+  <div class="kp-ribbon-body">
+    <span class="kp-ribbon-shine" aria-hidden="true"></span>
+    @if($promo && $car->price)
+      <p class="text-[11px] font-semibold text-white/75 line-through decoration-white/80">{{ \App\Models\Car::fcfa($car->price) }}</p>
+      <p class="font-serif text-2xl font-bold leading-tight text-white">{{ \App\Models\Car::fcfa($promo) }}</p>
+      <p class="mt-0.5 inline-block rounded bg-black/25 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white">Économisez {{ \App\Models\Car::fcfa($car->price - $promo) }}</p>
+    @elseif($car->promo_price)
+      <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/85">{{ $car->hasVersions() ? 'Prix promo TTC · à partir de' : 'Prix promo TTC' }}</p>
+      <p class="font-serif text-2xl font-bold leading-tight text-white">{{ \App\Models\Car::fcfa($car->promo_price) }}</p>
+      @if($car->campaign_price)<p class="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/85">Pack campagne entretien inclus : {{ \App\Models\Car::fcfa($car->campaign_price) }}</p>@endif
+    @elseif($car->price)
+      <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/80">À partir de</p>
+      <p class="font-serif text-2xl font-bold leading-tight text-white">{{ \App\Models\Car::fcfa($car->price) }}</p>
+    @elseif($pct > 0)
+      <p class="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/80">Remise promotion</p>
+      <p class="font-serif text-3xl font-bold leading-tight text-white">-{{ rtrim(rtrim(number_format($pct, 1, ',', ''), '0'), ',') }} %</p>
+    @else
+      <p class="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/80">Offre spéciale</p>
+      <p class="font-serif text-xl font-bold leading-tight text-white">Prix promo sur demande</p>
+    @endif
+  </div>
+</div>
