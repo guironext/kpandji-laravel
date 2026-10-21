@@ -19,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        \Illuminate\Support\Facades\Gate::policy(\App\Models\Investment::class, \App\Policies\InvestmentPolicy::class);
+
         // CMS : @content('hero.title1') affiche un contenu éditable (échappé)
         \Illuminate\Support\Facades\Blade::directive('content', fn ($e) => "<?php echo e(content($e)); ?>");
         \Illuminate\Support\Facades\Blade::directive('cmsEdit', fn ($e) => "<?php echo cms_edit($e); ?>");

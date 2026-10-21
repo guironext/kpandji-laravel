@@ -6,10 +6,9 @@ class EnsureAdmin
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!$request->user() || !$request->user()->is_admin) {
-            auth()->logout();
-            return redirect()->route('login')->withErrors(['email' => 'Accès réservé aux administrateurs.']);
-        }
+        if (!$request->user()) return redirect()->route('login');
+        // Manager / client connecté : accès refusé sans le déconnecter
+        abort_unless($request->user()->isAdmin(), 403, 'Accès réservé aux administrateurs.');
         return $next($request);
     }
 }

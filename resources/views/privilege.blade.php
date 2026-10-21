@@ -268,8 +268,8 @@
 <script>
 function kpPriv(){const T=@js($modes);return{waOpen:false,
  openWa(){try{this.waOpen=true;this.$nextTick(()=>{try{const el=document.querySelector('[data-kp-wa-qr]');if(el&&!el.dataset.done&&window.qrcode){const q=qrcode(0,'M');q.addData(@js(cms_url(content('priv.whatsapp'))));q.make();el.innerHTML=q.createSvgTag({cellSize:4,margin:0,scalable:true});el.dataset.done=1}}catch(e){console.warn('QR code indisponible',e)}});return !!document.querySelector('.kp-wa-modal')}catch(e){this.waOpen=false;return false}},
- open:false,success:false,sending:false,error:null,mode:'contact',t:T.contact,f:{name:'',country:'',city:'',phone:'',email:''},_ov:'',
- openModal(m){this.mode=m;this.t=T[m]||T.contact;this.f={name:'',country:'',city:'',phone:'',email:''};this.error=null;this.success=false;this.open=true;this._ov=document.body.style.overflow;document.body.style.overflow='hidden';setTimeout(()=>this.$refs.panel&&this.$refs.panel.focus(),50)},
+ open:false,success:false,sending:false,error:null,mode:'contact',t:T.contact,f:{name:@js(auth()->user()?->name ?? ''),country:'',city:'',phone:@js(auth()->user()?->phone ?? ''),email:@js(auth()->user()?->email ?? '')},_ov:'',
+ openModal(m){this.mode=m;this.t=T[m]||T.contact;this.f={name:@js(auth()->user()?->name ?? ''),country:'',city:'',phone:@js(auth()->user()?->phone ?? ''),email:@js(auth()->user()?->email ?? '')};this.error=null;this.success=false;this.open=true;this._ov=document.body.style.overflow;document.body.style.overflow='hidden';setTimeout(()=>this.$refs.panel&&this.$refs.panel.focus(),50)},
  close(){this.open=false;document.body.style.overflow=this._ov},
  async submit(){this.error=null;const d={};for(const k in this.f)d[k]=String(this.f[k]).trim();
   const M=@js(['name' => $c('e_name'), 'country' => $c('e_country'), 'city' => $c('e_city'), 'phone' => $c('e_phone'), 'email' => $c('e_email'), 'bad' => $c('e_email_bad'), 'server' => $c('e_server'), 'net' => $c('e_network')]);

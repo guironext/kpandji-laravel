@@ -61,3 +61,15 @@ if (! function_exists('cms_edit')) {
         return view('partials.admin-edit', ['href' => $href, 'label' => $label, 'top' => $top])->render();
     }
 }
+
+if (! function_exists('sp_t')) {
+    /** Libellé des espaces Manager/Client (onglet CMS « espaces »), FR/EN. */
+    function sp_t(string $k): string
+    {
+        $v = app()->getLocale() === 'en' ? (content("sp.{$k}_en") ?: content("sp.$k")) : content("sp.$k");
+        return (string) ($v ?? $k);
+    }
+}
+if (! function_exists('fcfa')) {
+    function fcfa($n): string { return number_format((float) $n, 0, ',', ' ').' FCFA'; }
+}

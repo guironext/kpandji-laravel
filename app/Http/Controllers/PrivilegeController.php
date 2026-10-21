@@ -18,7 +18,7 @@ class PrivilegeController extends Controller
         $v = validator($in->all(), ['name' => 'max:120', 'country' => 'max:120', 'city' => 'max:120', 'phone' => 'max:40', 'email' => 'max:160']);
         if ($v->fails()) return response()->json(['error' => $v->errors()->first()], 422);
         $source = $r->input('source') === 'advisor' ? 'advisor' : 'contact';
-        $row = PrivilegeRequest::create($in->all() + ['source' => $source, 'locale' => app()->getLocale()]);
+        $row = PrivilegeRequest::create($in->all() + ['source' => $source, 'locale' => app()->getLocale(), 'user_id' => $r->user()?->id]);
         return response()->json(['id' => $row->id], 201);
     }
 }

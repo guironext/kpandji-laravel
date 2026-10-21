@@ -99,6 +99,57 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('voitures', AdminCars::class)->parameters(['voitures' => 'car:id'])->names('cars')->except('show');
 });
 
+// ===== Espaces Manager & Client =====
+use App\Http\Controllers\Manager\ManagerController as Mgr;
+use App\Http\Controllers\Client\ClientController as Cli;
+use App\Http\Controllers\SpaceAccountController as SpaceAcc;
+Route::get('/invitation/{token}', [SpaceAcc::class, 'show'])->middleware('signed')->name('invitation.show');
+Route::post('/invitation/{token}', [SpaceAcc::class, 'accept'])->middleware(['signed', 'throttle:10,1'])->name('invitation.accept');
+Route::middleware('auth')->group(function () {
+    Route::get('/compte/en-attente', [SpaceAcc::class, 'waiting'])->name('space.waiting');
+    Route::get('/mon-compte/mot-de-passe', [SpaceAcc::class, 'password'])->name('space.password');
+    Route::put('/mon-compte/mot-de-passe', [SpaceAcc::class, 'updatePassword'])->middleware('throttle:10,1')->name('space.password.update');
+});
+Route::prefix('espace-manager')->name('manager.')->middleware('role:manager')->group(function () {
+    Route::get('/', [Mgr::class, 'dashboard'])->name('dashboard');
+    Route::get('/invitations', [Mgr::class, 'invitations'])->name('invitations');
+    Route::post('/invitations', [Mgr::class, 'invite'])->middleware('throttle:20,1')->name('invitations.store');
+    Route::post('/invitations/{inv}/renvoyer', [Mgr::class, 'resend'])->name('invitations.resend');
+    Route::post('/invitations/{inv}/revoquer', [Mgr::class, 'revoke'])->name('invitations.revoke');
+    Route::get('/messages', [Mgr::class, 'inbox'])->defaults('tab', 'messages')->name('inbox');
+    Route::post('/messages/ecrire', [Mgr::class, 'compose'])->middleware('throttle:10,1')->name('compose');
+    Route::get('/conversations/{conversation}', [Mgr::class, 'conversation'])->name('conversation');
+    Route::post('/conversations/{conversation}', [Mgr::class, 'conversationReply'])->middleware('throttle:20,1')->name('conversation.reply');
+    Route::get('/reservations', [Mgr::class, 'inbox'])->defaults('tab', 'reservations')->name('reservations');
+    Route::get('/sav', [Mgr::class, 'inbox'])->defaults('tab', 'sav')->name('sav');
+    Route::get('/autres-demandes', [Mgr::class, 'inbox'])->defaults('tab', 'autres')->name('other');
+    Route::post('/comptes/{user}/valider', [Mgr::class, 'approve'])->name('accounts.approve');
+    Route::post('/comptes/{user}/refuser', [Mgr::class, 'refuse'])->name('accounts.refuse');
+    Route::get('/messages/{source}/{id}', [Mgr::class, 'message'])->whereNumber('id')->name('message');
+    Route::patch('/messages/{source}/{id}', [Mgr::class, 'status'])->whereNumber('id')->name('message.status');
+    Route::post('/messages/{source}/{id}/repondre', [Mgr::class, 'reply'])->whereNumber('id')->name('message.reply');
+    Route::get('/clients', [Mgr::class, 'clients'])->name('clients');
+    Route::get('/clients/{user}', [Mgr::class, 'client'])->name('client');
+    Route::post('/clients/{user}/investissements', [Mgr::class, 'storeInvestment'])->name('investments.store');
+    Route::put('/investissements/{investment}', [Mgr::class, 'updateInvestment'])->name('investments.update');
+    Route::delete('/investissements/{investment}', [Mgr::class, 'destroyInvestment'])->name('investments.destroy');
+    Route::post('/investissements/{investment}/ecritures', [Mgr::class, 'storeEntry'])->name('entries.store');
+    Route::put('/ecritures/{entry}', [Mgr::class, 'updateEntry'])->name('entries.update');
+    Route::delete('/ecritures/{entry}', [Mgr::class, 'destroyEntry'])->name('entries.destroy');
+});
+Route::prefix('mon-espace')->name('client.')->middleware('role:client')->group(function () {
+    Route::get('/', [Cli::class, 'dashboard'])->name('dashboard');
+    Route::get('/gains', [Cli::class, 'gains'])->name('gains');
+    Route::get('/gains.csv', [Cli::class, 'csv'])->name('csv');
+    Route::get('/opportunites', [Cli::class, 'opportunities'])->name('opportunities');
+    Route::get('/messages', [Cli::class, 'messages'])->name('messages');
+    Route::post('/messages', [Cli::class, 'request'])->middleware('throttle:10,1')->name('request');
+    Route::post('/messages/tout-lu', [Cli::class, 'readAll'])->name('messages.read');
+    Route::get('/messages/{key}', [Cli::class, 'thread'])->where('key', '[a-z]+-[0-9]+')->name('thread');
+    Route::post('/messages/{key}', [Cli::class, 'followUp'])->where('key', '[a-z]+-[0-9]+')->middleware('throttle:10,1')->name('thread.reply');
+});
+Route::bind('inv', fn ($v) => \App\Models\ClientInvitation::findOrFail($v));
+
 // ===== Pages créées dans l'admin (après toutes les routes existantes) =====
 Route::get('/page/{slug}', [PageController::class, 'show'])->where('slug', '[a-z0-9-]+')->name('page.show');
 Route::get('/{slug}', [PageController::class, 'show'])->where('slug', '[a-z0-9]+(?:-[a-z0-9]+)*')->name('page.catchall');

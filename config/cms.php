@@ -8,7 +8,7 @@ $L = fn ($label, $url) => ['label' => $label, 'url' => $url];
 return [
   'tabs' => [
     'header' => 'Header', 'hero' => 'Hero', 'promo' => 'Promotion', 'home' => 'Accueil',
-    'modeles' => 'Modèles', 'showroomv' => 'Showroom', 'sav' => 'S.A.V.', 'footer' => 'Pied de page', 'form' => 'Formulaire', 'misc' => 'Textes divers', 'opps' => 'Opportunités', 'sira' => 'Kpandji Sira', 'priv' => 'Kpandji Privilège', 'savp' => 'Page S.A.V.', 'contactp' => 'Page Contact', 'brand' => 'Page Kpandji Automobiles', 'eco' => 'Page Eco-Kpandji', 'emp' => 'Page Emplois',
+    'modeles' => 'Modèles', 'showroomv' => 'Showroom', 'sav' => 'S.A.V.', 'footer' => 'Pied de page', 'form' => 'Formulaire', 'misc' => 'Textes divers', 'opps' => 'Opportunités', 'sira' => 'Kpandji Sira', 'priv' => 'Kpandji Privilège', 'savp' => 'Page S.A.V.', 'contactp' => 'Page Contact', 'brand' => 'Page Kpandji Automobiles', 'eco' => 'Page Eco-Kpandji', 'emp' => 'Page Emplois', 'modelp' => 'Fiche modèle', 'espaces' => 'Espaces Manager & Client',
   ],
   'fields' => [
     // ---------------- OPPORTUNITÉS (/opportunities — OpportunitiesPageContent.tsx) ----------------
@@ -70,6 +70,7 @@ return [
     'hero.offer_text' => ['hero', 'text', 'Carte offre — texte (si aucune réduction %)', 'Prix réduits sur tous nos modèles'],
     'hero.offer_pct' => ['hero', 'text', 'Carte offre — texte avec réduction (:pct = pourcentage)', "JUSQU'À -:pct %"],
     'hero.offer_until' => ['hero', 'text', 'Carte offre — préfixe date de fin', "Jusqu'au"],
+    'hero.offer_items' => ['hero', 'list', 'Carte offre — avantages (icône : shield, wrench, document)', [['icon' => 'shield', 'fr' => '3 ans de garantie ou 100 000 km offert', 'en' => '3-year or 100,000 km warranty included'], ['icon' => 'wrench', 'fr' => "1 an d'entretien offert", 'en' => '1 year of free maintenance'], ['icon' => 'document', 'fr' => 'Immatriculation offerte', 'en' => 'Free vehicle registration']], ['icon' => 'Icône', 'fr' => 'Texte FR', 'en' => 'Texte EN']],
     'hero.chips' => ['hero', 'list', 'Pastilles avantages', [['label' => 'Garantie 3 ans ou 100 000 km'], ['label' => 'Batterie 8 ans ou 150 000 km']], ['label' => 'Texte']],
     'hero.cta1_label' => ['hero', 'text', 'Bouton doré — libellé', 'Voir les offres'],
     'hero.cta1_url' => ['hero', 'url', 'Bouton doré — lien', '#offres'],
@@ -105,8 +106,16 @@ return [
         ['n' => '03', 'title' => 'Essai gratuit', 'text' => 'Réservez votre essai en quelques clics, un conseiller vous rappelle.'],
       ], ['n' => 'N°', 'title' => 'Titre', 'text' => 'Texte']],
     'home.banner_eyebrow' => ['home', 'text', 'Bannière dorée — surtitre', 'Offre limitée'],
-    'home.banner_title' => ['home', 'text', 'Bannière dorée — titre', "Profitez des prix réduits dès aujourd'hui"],
+    'home.banner_title' => ['home', 'text', 'Bannière dorée — titre', '3 ans de garantie ou 100 000 km offert'],
+    'home.banner_title_en' => ['home', 'text', 'Bannière dorée — titre (EN)', '3-year or 100,000 km warranty included'],
+    'home.banner_items' => ['home', 'list', 'Bannière dorée — lignes sous le titre (icône : shield, wrench, document)', [['icon' => 'wrench', 'fr' => "1 an d'entretien offert", 'en' => '1 year of free maintenance'], ['icon' => 'document', 'fr' => 'Immatriculation offerte', 'en' => 'Free vehicle registration']], ['icon' => 'Icône', 'fr' => 'Texte FR', 'en' => 'Texte EN']],
     'home.banner_cta' => ['home', 'text', 'Bannière dorée — bouton', 'Réserver un essai'],
+    'home.banner_cta_en' => ['home', 'text', 'Bannière dorée — bouton (EN)', 'Book a test drive'],
+    'home.banner_eyebrow_en' => ['home', 'text', 'Bannière dorée — surtitre (EN)', 'Limited offer'],
+    'home.banner_wa' => ['home', 'text', 'Bannière dorée — bouton WhatsApp (vide = masqué)', 'WhatsApp Conseiller'],
+    'home.banner_wa_en' => ['home', 'text', 'Bannière dorée — bouton WhatsApp (EN)', 'WhatsApp advisor'],
+    'home.banner_wa_number' => ['home', 'text', 'Bannière dorée — numéro WhatsApp (chiffres, indicatif inclus)', '2250707202211'],
+    'home.banner_image' => ['home', 'image', 'Bannière dorée — image du véhicule (PNG détouré, vide = emblème seul)', 'storage/cars/H3RpF2RwAHLAae3mNNORGjQhUNuGRFkBuejFmmXz.png'],
     'home.banner_url' => ['home', 'url', 'Bannière dorée — lien', '/essai'],
     'showroom.page_title' => ['home', 'text', 'ShowRoom — titre de l\'onglet', 'Nos modèles'],
     'showroom.badge' => ['home', 'text', 'ShowRoom — badge', 'Promotion exceptionnelle'],
@@ -262,5 +271,5 @@ return [
     'page.btn_essai' => ['misc', 'text', 'Pages — bouton essai', 'Réserver un essai'],
     'page.draft_note' => ['misc', 'text', 'Pages — mention si contenu vide', 'Page provisoire — contenu à compléter.'],
     'countdown.labels' => ['misc', 'list', 'Compte à rebours — unités (section offres)', [['label' => 'Jours'], ['label' => 'Heures'], ['label' => 'Min'], ['label' => 'Sec']], ['label' => 'Unité']],
-  ] + (require __DIR__.'/cms_sira.php') + (require __DIR__.'/cms_privilege.php') + (require __DIR__.'/cms_sav.php') + (require __DIR__.'/cms_contact.php') + (require __DIR__.'/cms_login.php') + (require __DIR__.'/cms_brand.php') + (require __DIR__.'/cms_ecologie.php') + (require __DIR__.'/cms_emplois.php'),
+  ] + (require __DIR__.'/cms_sira.php') + (require __DIR__.'/cms_privilege.php') + (require __DIR__.'/cms_sav.php') + (require __DIR__.'/cms_contact.php') + (require __DIR__.'/cms_login.php') + (require __DIR__.'/cms_brand.php') + (require __DIR__.'/cms_ecologie.php') + (require __DIR__.'/cms_emplois.php') + (require __DIR__.'/cms_model.php') + (require __DIR__.'/cms_spaces.php'),
 ];

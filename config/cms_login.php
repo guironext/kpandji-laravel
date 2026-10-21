@@ -20,5 +20,6 @@ return array_merge(
   $P('login_close', 'text', 'Connexion — bouton fermer (accessibilité)', 'Fermer', 'Close'),
   $P('account_menu_admin', 'text', 'Menu connecté — lien administrateur', 'Tableau de bord', 'Dashboard'),
   $P('account_menu_user', 'text', 'Menu connecté — lien utilisateur', 'Mon espace', 'My workspace'),
+  $P('account_menu_manager', 'text', 'Menu connecté — lien manager', 'Espace manager', 'Manager space'),
   $P('account_logout', 'text', 'Menu connecté — déconnexion', 'Se déconnecter', 'Sign out'),
 );

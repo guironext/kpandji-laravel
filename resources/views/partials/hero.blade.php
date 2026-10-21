@@ -56,12 +56,14 @@
       @php($d = max($d, 1.0))
 
       <div class="mt-6 flex flex-col gap-5 md:mt-8 lg:flex-row lg:items-center lg:gap-8">
-        <div class="kp-card-in kp-draw relative inline-flex w-full max-w-md items-center gap-5 rounded-2xl border border-kp-gold/30 bg-black/40 px-5 py-4 shadow-[0_20px_60px_-20px_rgba(201,169,98,0.5)] backdrop-blur-md sm:w-auto sm:px-6" style="--d:{{ round($d += 0.05, 3) }}s">
+        <div class="kp-card-in kp-draw relative flex w-full max-w-md flex-col rounded-2xl border border-kp-gold/30 bg-black/40 px-5 py-4 shadow-[0_20px_60px_-20px_rgba(201,169,98,0.5)] backdrop-blur-md sm:w-auto sm:px-6" style="--d:{{ round($d += 0.05, 3) }}s" data-kp-hero-offer>
+          {!! cms_edit('hero', 'Modifier', '-.9rem') !!}
+          <div class="flex items-center gap-5">
           <div>
             <p class="text-[10px] font-semibold uppercase tracking-[0.3em] text-white/55">@content('hero.offer_label')</p>
             @if($pct > 0)
               <p class="font-serif text-3xl font-semibold text-kp-gold sm:text-4xl">{{ str_replace(':pct', rtrim(rtrim(number_format($pct, 1, ',', ''), '0'), ','), content('hero.offer_pct')) }}</p>
-            @else
+            @elseif(filled(content('hero.offer_text')))
               <p class="font-serif text-2xl font-semibold leading-tight text-kp-gold sm:text-3xl">@content('hero.offer_text')</p>
             @endif
             @if($promoEnd && $promoEnd->isFuture())
@@ -74,6 +76,17 @@
               <div class="text-center"><p class="font-serif text-2xl tabular-nums text-white" x-text="String(Math.floor(t / {{ $div }}){{ $mod ? ' % '.$mod : '' }}).padStart(2,'0')">00</p><p class="text-[9px] uppercase tracking-[0.2em] text-white/45">{{ $lbl }}</p></div>
             @endforeach
           </div>
+          @endif
+          </div>
+          @php($kpOfferEn = app()->getLocale() === 'en')
+          @php($kpOffer = collect(content('hero.offer_items'))->map(fn ($r) => ['icon' => $r['icon'] ?? '', 'txt' => $kpOfferEn ? (($r['en'] ?? '') ?: ($r['fr'] ?? '')) : ($r['fr'] ?? '')])->filter(fn ($r) => filled($r['txt']))->values())
+          @if($kpOffer->isNotEmpty())
+          @php($kpIco = ['shield' => '<path d="M12 3 5 6v5.5c0 4.3 2.9 8.1 7 9.5 4.1-1.4 7-5.2 7-9.5V6l-7-3Z"/><path d="m9 12 2.2 2.2L15.5 10"/>', 'wrench' => '<path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-1.4 1.4a5 5 0 0 1-6-.8L7 20.2a1.8 1.8 0 0 1-2.6-2.6L10.8 11a5 5 0 0 1-.8-6L11.4 3.6l1.6 1.3a4 4 0 0 0 1.7 1.4Z"/>', 'document' => '<rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 11h4M7 13.5h7"/><circle cx="17" cy="12" r="1.2"/>'])
+          <ul class="mt-3 grid gap-1.5 border-t border-kp-gold/20 pt-3 [text-shadow:none]" role="list" data-kp-hero-offer-items>
+            @foreach($kpOffer as $a)
+            <li class="flex items-center gap-2.5"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-kp-gold/40 bg-kp-gold/10 text-kp-gold"><svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{!! $kpIco[$a['icon']] ?? $kpIco['shield'] !!}</svg></span><span class="min-w-0 text-[12px] font-medium leading-snug text-white/90 sm:text-[13px]">{{ $a['txt'] }}</span></li>
+            @endforeach
+          </ul>
           @endif
         </div>
         <ul class="flex flex-wrap gap-2 [text-shadow:none]">

@@ -2,7 +2,7 @@
 @php
   $kpEn = app()->getLocale() === 'en';
   $kpT = fn ($k) => $kpEn ? (content('header.'.$k.'_en') ?: content('header.'.$k)) : content('header.'.$k);
-  $kpWorkspace = auth()->check() ? (auth()->user()->is_admin ? route('admin.dashboard') : route('home')) : null;
+  $kpWorkspace = auth()->check() ? (auth()->user()->workspaceUrl() ?? route('home')) : null;
   $nav = collect(content('header.nav'))->filter(fn ($i) => ($i['visible'] ?? '1') !== '0' && trim($i['label'] ?? '') !== '')
     ->map(fn ($i) => [$i['label'], cms_url($i['url'] ?? ''), cms_active($i['url'] ?? '')])
     ->concat(\App\Models\Page::where('in_nav', true)->where('published', true)->orderBy('nav_order')->get()
@@ -92,7 +92,7 @@
         </button>
         <div x-show="acc" x-cloak x-transition.opacity.duration.200ms data-kp-account-menu role="menu" class="absolute right-0 top-full z-[60] mt-2 w-64 overflow-hidden rounded-2xl border border-kp-gold/20 bg-[#080808]/95 shadow-[0_24px_70px_-20px_rgba(0,0,0,0.9)] ring-1 ring-white/[0.06] backdrop-blur-xl">
           <div class="border-b border-white/10 px-5 py-4"><p class="truncate font-serif text-lg text-white">{{ auth()->user()->name }}</p><p class="truncate text-[11px] text-white/40">{{ auth()->user()->email }}</p></div>
-          <a role="menuitem" href="{{ $kpWorkspace }}" class="flex min-h-11 items-center px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/80 transition hover:bg-white/[0.06] hover:text-kp-gold">{{ $kpT(auth()->user()->is_admin ? 'account_menu_admin' : 'account_menu_user') }}</a>
+          <a role="menuitem" href="{{ $kpWorkspace }}" class="flex min-h-11 items-center px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/80 transition hover:bg-white/[0.06] hover:text-kp-gold">{{ $kpT(auth()->user()->menuKey()) }}</a>
           <form method="POST" action="{{ route('account.logout') }}">@csrf<button role="menuitem" type="submit" data-kp-logout class="flex min-h-11 w-full items-center border-t border-white/10 px-5 text-left text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50 transition hover:bg-white/[0.06] hover:text-white">{{ $kpT('account_logout') }}</button></form>
         </div>
       </div>
@@ -176,7 +176,7 @@
           </a>
           @else
           <div class="flex items-center gap-2">
-            <a href="{{ $kpWorkspace }}" class="inline-flex min-h-12 min-w-0 flex-1 items-center justify-center gap-2 rounded-full border border-kp-gold/30 px-4 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-kp-gold transition hover:bg-kp-gold/10"><span class="truncate">{{ auth()->user()->name }} · {{ $kpT(auth()->user()->is_admin ? 'account_menu_admin' : 'account_menu_user') }}</span></a>
+            <a href="{{ $kpWorkspace }}" class="inline-flex min-h-12 min-w-0 flex-1 items-center justify-center gap-2 rounded-full border border-kp-gold/30 px-4 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-kp-gold transition hover:bg-kp-gold/10"><span class="truncate">{{ auth()->user()->name }} · {{ $kpT(auth()->user()->menuKey()) }}</span></a>
             <form method="POST" action="{{ route('account.logout') }}">@csrf<button type="submit" class="inline-flex min-h-12 items-center rounded-full border border-white/15 px-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/60 transition hover:text-white">{{ $kpT('account_logout') }}</button></form>
           </div>
           @endguest

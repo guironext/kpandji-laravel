@@ -270,8 +270,8 @@
 </template>
 </div>
 <script>
-function kpSira(){return{open:false,success:false,sending:false,error:null,f:{name:'',country:'',city:'',phone:'',email:''},_ov:'',
- openModal(){this.f={name:'',country:'',city:'',phone:'',email:''};this.error=null;this.success=false;this.open=true;this._ov=document.body.style.overflow;document.body.style.overflow='hidden';setTimeout(()=>this.$refs.panel&&this.$refs.panel.focus(),50)},
+function kpSira(){return{open:false,success:false,sending:false,error:null,f:{name:@js(auth()->user()?->name ?? ''),country:'',city:'',phone:@js(auth()->user()?->phone ?? ''),email:@js(auth()->user()?->email ?? '')},_ov:'',
+ openModal(){this.f={name:@js(auth()->user()?->name ?? ''),country:'',city:'',phone:@js(auth()->user()?->phone ?? ''),email:@js(auth()->user()?->email ?? '')};this.error=null;this.success=false;this.open=true;this._ov=document.body.style.overflow;document.body.style.overflow='hidden';setTimeout(()=>this.$refs.panel&&this.$refs.panel.focus(),50)},
  close(){this.open=false;document.body.style.overflow=this._ov},
  async submit(){this.error=null;const t={};for(const k in this.f)t[k]=String(this.f[k]).trim();
   const M=@js(['name' => $c('e_name'), 'country' => $c('e_country'), 'city' => $c('e_city'), 'phone' => $c('e_phone'), 'email' => $c('e_email'), 'bad' => $c('e_email_bad'), 'server' => $c('e_server'), 'net' => $c('e_network')]);

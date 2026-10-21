@@ -31,7 +31,7 @@ class AccountAuthController extends Controller
         }
         RateLimiter::clear($key);
         $r->session()->regenerate();
-        $to = Auth::user()->is_admin ? route('admin.dashboard') : redirect()->intended(route('home'))->getTargetUrl();
+        $to = Auth::user()->workspaceUrl() ?? redirect()->intended(route('home'))->getTargetUrl();
         return $r->expectsJson() ? response()->json(['redirect' => $to]) : redirect()->to($to);
     }
 

@@ -17,7 +17,7 @@ class SiraController extends Controller
         if (! filter_var($in['email'], FILTER_VALIDATE_EMAIL)) return response()->json(['error' => $msg('e_email_bad')], 422);
         $v = validator($in->all(), ['name' => 'max:120', 'country' => 'max:120', 'city' => 'max:120', 'phone' => 'max:40', 'email' => 'max:160']);
         if ($v->fails()) return response()->json(['error' => $v->errors()->first()], 422);
-        $row = SiraRequest::create($in->all() + ['locale' => app()->getLocale()]);
+        $row = SiraRequest::create($in->all() + ['locale' => app()->getLocale(), 'user_id' => $r->user()?->id]);
         return response()->json(['id' => $row->id], 201);
     }
 }
