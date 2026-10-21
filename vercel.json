@@ -1,9 +1,12 @@
 {
   "version": 2,
+  "framework": null,
+  "installCommand": "echo 'No npm install: PHP runtime (vercel-php) installs Composer deps'",
+  "buildCommand": "echo 'No static build: Laravel served by api/index.php'",
   "outputDirectory": "public",
   "functions": {
     "api/index.php": {
-      "runtime": "vercel-php@0.7.3"
+      "runtime": "vercel-php@0.8.0"
     }
   },
   "routes": [
