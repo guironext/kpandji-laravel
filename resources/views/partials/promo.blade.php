@@ -3,7 +3,7 @@
 
 <section id="offres" class="relative scroll-mt-24 overflow-hidden border-b border-white/10 py-24 md:py-32">
   <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(900px_400px_at_50%_0%,rgba(201,169,98,0.16),transparent_70%)]"></div>
-  {!! cms_edit('promo') !!}
+  {!! cms_edit('promo', 'Modifier cette section', '5.5rem') !!}
   <div class="relative mx-auto max-w-[1400px] px-5 md:px-10">
     <div class="mx-auto max-w-5xl text-center">
       
@@ -61,6 +61,7 @@
       <p class="mt-3 text-xs uppercase tracking-[0.25em] text-white/45">{{ content('promo.until') }} {{ $end->format('d/m/Y') }}</p>
       @endif
     </div>
+    @if(cms_is_admin())<div class="relative mx-auto max-w-[1200px]">{!! cms_edit(route('admin.cars.index'), 'Modifier les voitures et prix', '1.5rem') !!}</div>@endif
     <div class="relative mx-auto mt-14 max-w-[1200px] md:mt-20" @mouseenter="paused = true" @mouseleave="paused = false" @touchstart.passive="paused = true; clearTimeout(rt); rt = setTimeout(() => paused = false, 9000)"
       x-init="if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => { if (!paused && !document.hidden) go((cur + 1) % n) }, 6000)"
       x-data="{ paused: false, rt: null, p: 0, cur: 0, n: {{ $cars->count() }}, step(d){ const t=this.$refs.track; const c=t.querySelector('[data-slide]'); t.scrollBy({ left: d * ((c ? c.offsetWidth : 400) + 24), behavior: 'smooth' }) },

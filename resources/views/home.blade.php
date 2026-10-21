@@ -5,9 +5,10 @@
 @if(config('promo.active', true))
 @include('partials.promo')
 @endif
+@include('partials.modeles')
 @include('partials.parallax')
-ut                                    vcv
-<section class="mx-auto mt-24 max-w-[1400px] px-5 md:px-10">
+<section class="relative mx-auto mt-24 max-w-[1400px] px-5 md:px-10">
+  {!! cms_edit('home', 'Modifier cette section', '1rem') !!}
   <div class="relative overflow-hidden rounded-3xl border border-kp-gold/30 bg-gradient-to-r from-[#1a160d] via-[#0e0e0e] to-black p-10 md:p-16">
     <div class="pointer-events-none absolute -right-20 -top-20 size-80 rounded-full bg-kp-gold/20 blur-3xl"></div>
     <div class="relative flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">

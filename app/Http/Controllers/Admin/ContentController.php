@@ -24,6 +24,14 @@ class ContentController extends Controller
     public function save(Request $r, string $tab)
     {
         abort_unless(array_key_exists($tab, config('cms.tabs')), 404);
+        $errors = $this->persist($r, $tab);
+        if ($errors) throw ValidationException::withMessages($errors);
+        return redirect()->route('admin.content', ['tab' => $tab])->with('status', 'Contenu enregistré. Le site est à jour.');
+    }
+
+    /** Enregistre les champs d'un onglet du registre CMS ; renvoie les erreurs (réutilisé par Admin › Showroom). */
+    public function persist(Request $r, string $tab): array
+    {
         $fields = Cms::fields($tab);
         $in = (array) $r->input('c', []);
         $reset = (array) $r->input('reset', []);
@@ -71,8 +79,6 @@ class ContentController extends Controller
             $row->fill(['group' => $g, 'type' => $type, 'label' => $label, 'value' => $value])->save();
         }
         Cache::forget(Content::CACHE);
-
-        if ($errors) throw ValidationException::withMessages($errors);
-        return redirect()->route('admin.content', ['tab' => $tab])->with('status', 'Contenu enregistré. Le site est à jour.');
+        return $errors;
     }
 }

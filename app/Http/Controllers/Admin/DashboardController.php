@@ -30,6 +30,7 @@ class DashboardController extends Controller
         return redirect()->route('admin.promo')->with('status', 'Promotion enregistrée.');
     }
     public function requests() { return view('admin.requests', ['items' => TestDriveRequest::with('car')->latest()->paginate(25)]); }
+    public function destroyRequest(TestDriveRequest $item) { $item->delete(); return back()->with('status', 'Demande supprimée.'); }
     public function toggleHandled(TestDriveRequest $item)
     {
         $item->forceFill(['handled_at' => $item->handled_at ? null : now()])->save();

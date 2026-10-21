@@ -1,7 +1,7 @@
 {{-- Port Blade du composant Sav (kpandji2026 final/components/kp/Sav.tsx) — textes éditables : Admin › Contenu › S.A.V. --}}
 @php($savTel = preg_replace('/[^\d+]/', '', (string) content('sav.phone')))
 <section id="sav" class="relative overflow-hidden bg-kp-black" aria-labelledby="sav-title">
-  {!! cms_edit('sav') !!}
+  {!! cms_edit('sav', 'Modifier cette section', '5.5rem') !!}
   <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-[radial-gradient(900px_520px_at_15%_10%,rgba(201,169,98,0.10),transparent_60%)]"></div>
 
   <div class="relative mx-auto grid w-full max-w-[1680px] items-center gap-10 px-5 py-16 sm:px-8 sm:py-20 md:py-24 lg:grid-cols-2 lg:gap-16 lg:px-12 lg:py-28 xl:px-16">

@@ -9,6 +9,7 @@
   $email = content('footer.email');
 @endphp
 <footer id="contact" class="kpf relative isolate mt-24 overflow-hidden border-t border-white/[0.07] bg-kp-bg">
+  {!! cms_edit('footer', 'Modifier le pied de page', '1rem') !!}
   <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-kp-surface"></div>
   <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 kpf-drift bg-[radial-gradient(1000px_520px_at_8%_-10%,rgba(201,169,98,0.11),transparent_58%),radial-gradient(820px_480px_at_92%_110%,rgba(255,255,255,0.04),transparent_52%)]"></div>
   <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[length:64px_64px] opacity-[0.35]"></div>

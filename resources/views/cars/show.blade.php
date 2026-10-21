@@ -2,6 +2,7 @@
 @section('title',$car->name)
 @section('content')
 <section class="relative h-[60vh] overflow-hidden">
+  {!! cms_edit(route('admin.cars.edit', $car), 'Modifier ce modèle', '6.5rem') !!}
   <img src="{{ asset($car->hero_image ?? $car->image) }}" class="absolute inset-0 w-full h-full object-cover opacity-60" alt="{{ $car->name }}">
   <div class="absolute inset-0 bg-gradient-to-t from-kp-black via-kp-black/40 to-transparent"></div>
   <div class="relative max-w-7xl mx-auto px-6 h-full flex flex-col justify-end pb-12">
@@ -9,7 +10,9 @@
     <h1 class="font-serif text-5xl md:text-7xl font-semibold text-white">{{ $car->name }}</h1>
   </div>
 </section>
-<section class="max-w-7xl mx-auto px-6 mt-12 grid lg:grid-cols-3 gap-12">
+<section class="relative max-w-7xl mx-auto px-6 mt-12 grid lg:grid-cols-3 gap-12 pt-12">
+  {!! cms_edit(route('admin.cars.edit', $car), 'Modifier fiche, versions et prix', '0') !!}
+  @if(cms_is_admin())<div class="lg:col-span-3 -mb-8 flex justify-end"><a href="{{ route('admin.content', ['tab' => 'misc']) }}" target="_blank" class="text-[11px] text-kp-gold underline">Titres et libellés de la fiche (Textes divers) ↗</a></div>@endif
   <div class="lg:col-span-2">
     <img src="{{ asset($car->image) }}" alt="{{ $car->name }}" class="w-full bg-kp-dark p-6 object-contain max-h-[420px]">
     <p class="mt-8 text-lg leading-relaxed text-kp-sand/90">{{ $car->description }}</p>
@@ -44,6 +47,6 @@
   </aside>
 
 </section>
-<section class="max-w-7xl mx-auto px-6 mt-24"><h2 class="text-2xl font-extrabold text-white mb-6">@content('model.others')</h2>
+<section class="relative max-w-7xl mx-auto px-6 mt-24 pt-12">{!! cms_edit('misc', 'Modifier cette section', '0') !!}<h2 class="text-2xl font-extrabold text-white mb-6">@content('model.others')</h2>
   <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">@foreach($others as $car) @include('partials.card') @endforeach</div></section>
 @endsection

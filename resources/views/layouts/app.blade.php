@@ -4,10 +4,14 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 @hasSection('seo_title')<title>@yield('seo_title')</title>@else<title>@yield('title', 'KPANDJI') — {{ config('promo.title') }}</title>@endif
 @hasSection('meta_description')<meta name="description" content="@yield('meta_description')">@endif
+@stack('meta')
 <link rel="icon" href="{{ cms_asset(content('header.logo')) }}">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;800&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>[x-cloak]{display:none!important}
+.kp-cms-edit{position:absolute;right:.75rem;z-index:45;display:inline-flex;align-items:center;gap:.4rem;background:linear-gradient(135deg,#e6cf8f,#c9a962);color:#0a0a0a!important;font:700 11px/1 Montserrat,system-ui,sans-serif;letter-spacing:.06em;text-transform:none;padding:.55rem .85rem;border-radius:999px;text-decoration:none!important;box-shadow:0 0 0 1px rgba(0,0,0,.55),0 0 0 3px rgba(201,169,98,.35),0 10px 26px -8px rgba(0,0,0,.8);transition:transform .2s,box-shadow .2s;white-space:nowrap}
+.kp-cms-edit:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(0,0,0,.55),0 0 0 4px rgba(201,169,98,.55),0 14px 30px -8px rgba(0,0,0,.85)}
+.kp-cms-edit:focus-visible{outline:2px solid #fff;outline-offset:2px}
 @keyframes kp-marquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}.kp-marquee-track{animation:kp-marquee 36s linear infinite}
 @keyframes kp-scroll-bounce{0%,100%{transform:translateY(0);opacity:.85}50%{transform:translateY(10px);opacity:.35}}.kp-scroll-dot{animation:kp-scroll-bounce 1.8s ease-in-out infinite}
 .kp-grain{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");mix-blend-mode:overlay}
@@ -99,6 +103,16 @@ li.kp-up,.kp-card-in.inline-flex{display:inline-flex}
 .kp-split .kp-floor{bottom:10%;left:16%;right:16%;height:30px}
 .kp-split .kp-spot{width:100%;height:100%;top:0;background:radial-gradient(ellipse 48% 50% at 50% 50%,rgba(201,169,98,.32),rgba(201,169,98,.08) 50%,transparent 72%)}
 @media (min-width:768px){.kp-split .kp-stage::after{height:30%}.kp-split .kp-stage{border-right:1px solid rgba(201,169,98,.08)}}
+/* Carte split — voiture bien visible (v26) : pas de recadrage, plus lumineuse, projecteur + sol */
+.kp-split .kp-car-img{transform:translate3d(var(--px,0px),var(--py,0px),0) scale(1);filter:brightness(1.1) contrast(1.06) drop-shadow(0 0 28px rgba(255,238,205,.10)) drop-shadow(0 16px 14px rgba(0,0,0,.5));image-rendering:auto;backface-visibility:hidden}
+.kp-split.kp-card:hover .kp-car-img{transform:translate3d(var(--px,0px),var(--py,0px),0) scale(1.04)}
+.kp-card.is-in .kp-car-slide{filter:none}
+.kp-split .kp-spot{z-index:0;opacity:1;background:radial-gradient(ellipse 52% 46% at 50% 52%,rgba(255,240,212,.20),rgba(201,169,98,.12) 45%,transparent 74%)}
+.kp-split .kp-floor{z-index:0;left:8%;right:8%;bottom:9%;height:56px;filter:blur(6px);background:radial-gradient(ellipse at center,rgba(255,236,200,.16),rgba(201,169,98,.06) 45%,transparent 72%)}
+.kp-split .kp-floor::after{content:"";position:absolute;left:14%;right:14%;top:42%;height:16px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(0,0,0,.75),transparent 70%)}
+.kp-split .kp-stage::after{background:linear-gradient(180deg,transparent,rgba(201,169,98,.035) 60%,rgba(255,255,255,.02));border-top-color:rgba(255,255,255,.025)}
+.kp-split .kp-stage .kp-car-slide{z-index:2}
+
 .kp-price-big{text-shadow:0 2px 12px rgba(0,0,0,.45)}
 .kp-save{box-shadow:0 0 0 1px rgba(245,236,214,.35)}
 .kp-ping{animation:kpPing 1.8s cubic-bezier(0,0,.2,1) infinite}@keyframes kpPing{75%,100%{transform:scale(2.4);opacity:0}}
@@ -107,6 +121,12 @@ li.kp-up,.kp-card-in.inline-flex{display:inline-flex}
 @keyframes kpPulse{0%{box-shadow:0 0 0 0 rgba(201,169,98,.5)}70%,100%{box-shadow:0 0 0 12px rgba(201,169,98,0)}}
 .kp-progress{transition:transform .25s linear}
 @media (hover:none){.kp-card{transform:none!important}}
+/* Modeles.tsx — kp-grain / kp-clamp-3 (app/globals.css) + Reveal */
+.kp-grain{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");mix-blend-mode:overlay}
+.kp-clamp-3{display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;-webkit-line-clamp:3;line-clamp:3}
+.kpm-wait{opacity:0;transform:translate3d(0,40px,0) scale(.992);filter:blur(10px);transition:opacity .85s cubic-bezier(.22,1,.36,1) var(--kpm-d,0ms),transform .85s cubic-bezier(.22,1,.36,1) var(--kpm-d,0ms),filter .85s cubic-bezier(.22,1,.36,1) var(--kpm-d,0ms)}
+.kpm-wait.kpm-in{opacity:1;transform:none;filter:none}
+@media (prefers-reduced-motion:reduce){.kpm-wait{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}#modeles .group *{transition:none!important}}
 @media (prefers-reduced-motion:reduce){.kp-car-slide,.kp-spec,.kp-rv,.kp-card .kp-ribbon{filter:none!important;opacity:1!important;transform:none!important;transition:none!important}.kp-float,.kp-ping,.kp-cta-pulse::after{animation:none!important}.kp-card,.kp-car-img,.kp-card-sweep{transition:none!important}.kp-card{transform:none!important}}
 
 
@@ -116,7 +136,7 @@ li.kp-up,.kp-card-in.inline-flex{display:inline-flex}
 </style>
 <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-<script>tailwind.config={theme:{extend:{colors:{kp:{black:'#0a0a0a',dark:'#141414',gold:'#c9a962',sand:'#e8e4dc',silver:'#d4d4d8',bg:'#050505',surface:'#0c0c0c',elevated:'#141414',muted:'#9ca3af'}},fontFamily:{sans:['Montserrat','sans-serif'],serif:['"Playfair Display"','Georgia','serif']}}}}</script>
+<script>tailwind.config={theme:{extend:{colors:{kp:{black:'#0a0a0a',dark:'#141414',gold:'#c9a962',sand:'#e8e4dc',silver:'#d4d4d8',bg:'#050505',surface:'#0c0c0c',elevated:'#141414',muted:'#9ca3af',accent:'#e8e4dc'}},fontFamily:{sans:['Montserrat','sans-serif'],serif:['"Playfair Display"','Georgia','serif']}}}}</script>
 </head>
 <body class="selection:bg-kp-gold selection:text-black bg-kp-black text-kp-sand font-sans antialiased">
 @include('partials.header')

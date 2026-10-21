@@ -45,13 +45,19 @@ if (! function_exists('cms_active')) {
     }
 }
 
+if (! function_exists('cms_is_admin')) {
+    function cms_is_admin(): bool { $u = auth()->user(); return (bool) ($u && $u->is_admin); }
+}
+
 if (! function_exists('cms_edit')) {
-    /** Lien « Modifier cette section » visible uniquement par un administrateur connecté. */
-    function cms_edit(string $tab, string $label = 'Modifier cette section', string $top = '.75rem'): string
+    /**
+     * Bouton « Modifier cette section » — visible uniquement par un administrateur connecté.
+     * $target : onglet de Contenu (« promo », « footer »…) ou URL d'admin complète (route(...) / '/admin/...').
+     */
+    function cms_edit(string $target, string $label = 'Modifier cette section', string $top = '.75rem'): string
     {
-        $u = auth()->user();
-        if (! $u || ! $u->is_admin) return '';
-        $href = e(route('admin.content', ['tab' => $tab]));
-        return '<a href="'.$href.'" class="kp-cms-edit" style="position:absolute;z-index:40;top:'.$top.';right:.75rem;background:#c9a962;color:#000;font:600 11px/1 system-ui;padding:.45rem .7rem;border-radius:999px;text-decoration:none;letter-spacing:.04em">✎ '.e($label).'</a>';
+        if (! cms_is_admin()) return '';
+        $href = array_key_exists($target, config('cms.tabs', [])) ? route('admin.content', ['tab' => $target]) : $target;
+        return view('partials.admin-edit', ['href' => $href, 'label' => $label, 'top' => $top])->render();
     }
 }

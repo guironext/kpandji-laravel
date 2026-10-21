@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('title', content('form.page_title'))
 @section('content')
-<section class="max-w-3xl mx-auto px-6 pt-16">
+<section class="relative max-w-3xl mx-auto px-6 pt-16">
+  {!! cms_edit('form', 'Modifier cette section', '1rem') !!}
   <p class="text-kp-gold uppercase tracking-[0.3em] text-sm">@content('form.eyebrow')</p>
   <h1 class="text-5xl font-extrabold text-white mt-2">@content('form.title')</h1>
   <p class="mt-4 text-kp-silver/70">@content('form.intro')</p>

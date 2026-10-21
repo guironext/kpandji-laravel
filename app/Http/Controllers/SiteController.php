@@ -7,6 +7,8 @@ class SiteController extends Controller
 {
     public function home() { return view('home', ['cars' => Car::visible()->get()]); }
     public function index() { return view('cars.index', ['cars' => Car::visible()->get()]); }
+    public function opportunities() { return view('opportunities'); }
+    public function showroom() { return view('showroom', ['models' => \App\Models\Modele::showroom()->get()]); }
     public function show(Car $car) { abort_unless($car->is_active, 404); return view('cars.show', ['car' => $car, 'others' => Car::visible()->where('id', '!=', $car->id)->get()]); }
     public function contact(Request $r) { return view('contact', ['cars' => Car::visible()->get(), 'selected' => $r->query('modele')]); }
     public function store(Request $r)

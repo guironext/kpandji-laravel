@@ -19,7 +19,7 @@
   <div class="kp-corner" aria-hidden="true"><span>@if(config('promo.reduction_percent') > 0) -{{ config('promo.reduction_percent') }} % @else @content('card.corner') @endif</span></div>
 
   {{-- Côté voiture --}}
-  <a href="{{ route('cars.show', $car) }}" class="kp-stage relative flex h-72 items-center justify-center overflow-hidden px-4 pt-6 sm:h-96 md:h-auto md:min-h-[460px] md:px-8 lg:min-h-[520px]" aria-label="{{ $car->name }}">
+  <a href="{{ route('cars.show', $car) }}" class="kp-stage relative flex h-[340px] items-center justify-center overflow-hidden px-2 pb-0 pt-4 sm:h-[30rem] md:h-auto md:min-h-[500px] md:px-6 md:py-8 lg:min-h-[560px]" aria-label="{{ $car->name }}">
     <span class="kp-spot" aria-hidden="true"></span>
     <span class="kp-floor" aria-hidden="true"></span>
     <div class="kp-car-slide relative z-[1] h-full w-full">

@@ -1,5 +1,8 @@
 {{-- Port Blade/Alpine de KpHeader + KpAnimatedLogo (kpandji2026 final/components/kp/KpHeader.tsx) --}}
 @php
+  $kpEn = app()->getLocale() === 'en';
+  $kpT = fn ($k) => $kpEn ? (content('header.'.$k.'_en') ?: content('header.'.$k)) : content('header.'.$k);
+  $kpWorkspace = auth()->check() ? (auth()->user()->is_admin ? route('admin.dashboard') : route('home')) : null;
   $nav = collect(content('header.nav'))->filter(fn ($i) => ($i['visible'] ?? '1') !== '0' && trim($i['label'] ?? '') !== '')
     ->map(fn ($i) => [$i['label'], cms_url($i['url'] ?? ''), cms_active($i['url'] ?? '')])
     ->concat(\App\Models\Page::where('in_nav', true)->where('published', true)->orderBy('nav_order')->get()
@@ -77,9 +80,23 @@
       <button type="button" @click="menuOpen=false; openSearch()" class="flex h-11 w-11 items-center justify-center rounded-full text-white/85 transition-colors hover:bg-white/10 hover:text-white active:bg-white/15" aria-label="Ouvrir la recherche">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
       </button>
-      <a href="{{ route('essai') }}" class="hidden h-11 w-11 items-center justify-center rounded-full text-white/85 transition-colors hover:bg-white/10 hover:text-white sm:flex" aria-label="Espace client" title="Espace client (bientôt disponible)">
+      {{-- Icône utilisateur : invité -> fenêtre de connexion (partials/account-login) ; connecté -> petit menu --}}
+      @guest
+      <a href="{{ route('login') }}" data-kp-login-open @click="menuOpen=false; searchOpen=false; if (window.kpOpenLogin && window.kpOpenLogin()) $event.preventDefault()" class="flex h-11 w-11 items-center justify-center rounded-full text-white/85 transition-colors hover:bg-white/10 hover:text-white" aria-haspopup="dialog" aria-label="{{ $kpT('login_title') }}" title="{{ $kpT('login_title') }}">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="9" r="3.5"/><path d="M6 19.5c0-3 2.5-5 6-5s6 2 6 5"/></svg>
       </a>
+      @else
+      <div class="relative" x-data="{ acc: false }" @keydown.escape.window="acc = false" @click.outside="acc = false">
+        <button type="button" data-kp-account-btn @click="acc = !acc" :aria-expanded="acc" aria-haspopup="menu" class="relative flex h-11 w-11 items-center justify-center rounded-full text-kp-gold transition-colors hover:bg-white/10" aria-label="{{ auth()->user()->name }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="9" r="3.5"/><path d="M6 19.5c0-3 2.5-5 6-5s6 2 6 5"/></svg><span class="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-kp-gold shadow-[0_0_8px_rgba(201,169,98,0.8)]" aria-hidden="true"></span>
+        </button>
+        <div x-show="acc" x-cloak x-transition.opacity.duration.200ms data-kp-account-menu role="menu" class="absolute right-0 top-full z-[60] mt-2 w-64 overflow-hidden rounded-2xl border border-kp-gold/20 bg-[#080808]/95 shadow-[0_24px_70px_-20px_rgba(0,0,0,0.9)] ring-1 ring-white/[0.06] backdrop-blur-xl">
+          <div class="border-b border-white/10 px-5 py-4"><p class="truncate font-serif text-lg text-white">{{ auth()->user()->name }}</p><p class="truncate text-[11px] text-white/40">{{ auth()->user()->email }}</p></div>
+          <a role="menuitem" href="{{ $kpWorkspace }}" class="flex min-h-11 items-center px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/80 transition hover:bg-white/[0.06] hover:text-kp-gold">{{ $kpT(auth()->user()->is_admin ? 'account_menu_admin' : 'account_menu_user') }}</a>
+          <form method="POST" action="{{ route('account.logout') }}">@csrf<button role="menuitem" type="submit" data-kp-logout class="flex min-h-11 w-full items-center border-t border-white/10 px-5 text-left text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50 transition hover:bg-white/[0.06] hover:text-white">{{ $kpT('account_logout') }}</button></form>
+        </div>
+      </div>
+      @endguest
       <button type="button" @click="searchOpen=false; menuOpen=!menuOpen" class="relative flex h-11 w-11 flex-col items-center justify-center gap-[5px] rounded-full bg-white text-black transition-colors hover:bg-white/90 active:bg-white/85 xl:hidden"
               :aria-expanded="menuOpen" aria-controls="kp-mobile-menu" :aria-label="menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'">
         <span class="block h-px w-[18px] origin-center bg-current transition-[transform,opacity] duration-300 ease-out" :class="menuOpen && 'translate-y-[3px] rotate-45'"></span>
@@ -91,7 +108,7 @@
 </header>
 
 {{-- Recherche plein écran --}}
-<div class="fixed inset-0 z-[70] flex flex-col bg-black/[0.96] pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] backdrop-blur-2xl transition-[opacity,visibility] duration-500 ease-out"
+<div x-cloak class="fixed inset-0 z-[70] flex flex-col bg-black/[0.96] pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] backdrop-blur-2xl transition-[opacity,visibility] duration-500 ease-out"
      :class="searchOpen ? 'visible opacity-100' : 'invisible pointer-events-none opacity-0'" role="dialog" aria-modal="true" aria-label="Recherche">
   <form class="flex items-center justify-between border-b border-white/10 px-4 py-3.5 sm:px-5 sm:py-5 md:px-10" @submit.prevent="go()">
     <label for="kp-search" class="sr-only">Rechercher sur le site</label>
@@ -123,7 +140,7 @@
 </div>
 
 {{-- Menu mobile / tablette --}}
-<div class="fixed inset-0 z-[60] xl:hidden" :class="menuOpen ? 'pointer-events-auto' : 'pointer-events-none'" :aria-hidden="!menuOpen">
+<div x-cloak class="fixed inset-0 z-[60] xl:hidden" :class="menuOpen ? 'pointer-events-auto' : 'pointer-events-none'" :aria-hidden="!menuOpen">
   <button type="button" class="absolute inset-0 bg-black/75 backdrop-blur-sm transition-opacity duration-500" :class="menuOpen ? 'opacity-100' : 'opacity-0'" @click="menuOpen=false" aria-label="Fermer le menu" :tabindex="menuOpen ? 0 : -1"></button>
   <div id="kp-mobile-menu" role="dialog" aria-modal="true" aria-label="Navigation principale" :data-open="menuOpen ? 'true' : 'false'"
        class="kp-menu-panel absolute inset-y-0 right-0 flex w-full flex-col bg-[#060606] shadow-[-24px_0_80px_rgba(0,0,0,0.75)] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:max-w-[440px]"
@@ -152,10 +169,17 @@
       </nav>
       <div class="shrink-0 border-t border-white/10 bg-[#080808] px-5 pb-4 pt-4 sm:px-6">
         <div class="space-y-2.5">
-          <a href="{{ route('essai') }}" class="inline-flex w-full min-h-12 items-center justify-center gap-2 rounded-full border border-white/15 px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90 transition hover:border-white/30 hover:bg-white/5">
+          @guest
+          <a href="{{ route('login') }}" data-kp-login-open-mobile @click="menuOpen=false; if (window.kpOpenLogin && window.kpOpenLogin()) $event.preventDefault()" class="inline-flex w-full min-h-12 items-center justify-center gap-2 rounded-full border border-white/15 px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90 transition hover:border-white/30 hover:bg-white/5">
             <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="9" r="3.5"/><path d="M6 19.5c0-3 2.5-5 6-5s6 2 6 5"/></svg>
             @content('header.account_label')
           </a>
+          @else
+          <div class="flex items-center gap-2">
+            <a href="{{ $kpWorkspace }}" class="inline-flex min-h-12 min-w-0 flex-1 items-center justify-center gap-2 rounded-full border border-kp-gold/30 px-4 py-3.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-kp-gold transition hover:bg-kp-gold/10"><span class="truncate">{{ auth()->user()->name }} · {{ $kpT(auth()->user()->is_admin ? 'account_menu_admin' : 'account_menu_user') }}</span></a>
+            <form method="POST" action="{{ route('account.logout') }}">@csrf<button type="submit" class="inline-flex min-h-12 items-center rounded-full border border-white/15 px-4 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/60 transition hover:text-white">{{ $kpT('account_logout') }}</button></form>
+          </div>
+          @endguest
           <a href="{{ cms_url(content('header.cta_url')) }}" @click="menuOpen=false" class="inline-flex w-full min-h-12 items-center justify-center rounded-full bg-white px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-black transition hover:bg-white/95">@content('header.cta_label')</a>
         </div>
         <div class="mt-4 flex items-center justify-between gap-3">
@@ -168,6 +192,7 @@
 </div>
 </div>
 <div class="h-14 sm:h-16 md:h-[125px]" aria-hidden="true"></div>
+@guest @include('partials.account-login', ['kpT' => $kpT]) @endguest
 
 <script>
 function kpHeader() {
