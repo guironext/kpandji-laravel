@@ -43,7 +43,8 @@
 @php($wrap = 'mx-auto max-w-[1480px] px-5 md:px-10')
 @php($waIcon = '<svg viewBox="0 0 24 24" class="h-4 w-4 shrink-0" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 2.5 1 3 .8 3.6.8.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>')
 @php($arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>')
-@php($priceLabel = $isFrom ? $t('price_from') : $t('price_label'))
+@php($priceLabel = $t('price_label'))
+@php($pfx = app()->getLocale() === 'en' ? (content('models.price_from_en') ?: content('models.price_from')) : content('models.price_from'))
 @section('seo_title', $car->name.content('modelp.seo_suffix'))
 @section('meta_description', \Illuminate\Support\Str::limit($desc, 157))
 @push('meta')
@@ -100,7 +101,7 @@
           <div class="mt-6 flex flex-wrap items-end gap-x-6 gap-y-2 border-t border-white/10 pt-5" data-kp-md-price>
             <div>
               <p class="text-[10px] font-semibold uppercase tracking-[0.3em] text-kp-gold">{{ $priceLabel }}</p>
-              <p class="mt-1.5 font-serif text-[clamp(2rem,3.6vw,2.8rem)] font-medium leading-none tracking-[-0.02em] text-white">{{ $kPrice ? $fmt($kPrice) : $t('price_request') }}</p>
+              <p class="mt-1.5 font-serif text-[clamp(2rem,3.6vw,2.8rem)] font-medium leading-none tracking-[-0.02em] text-white">@if($kPrice && filled($pfx))<span class="mb-1.5 block font-serif text-[15px] font-normal italic leading-none tracking-normal text-white/65 sm:text-[17px]" data-kp-price-from>{{ $pfx }}</span>@endif<span class="whitespace-nowrap">{{ $kPrice ? $fmt($kPrice) : $t('price_request') }}</span></p>
             </div>
           </div>
           @if($showAdv)
@@ -329,7 +330,7 @@
               @if($o->category)<p class="text-[10px] uppercase tracking-[0.28em] text-white/40">{{ $o->category }}</p>@endif
               <p class="mt-1.5 font-serif text-[1.6rem] leading-tight text-white">{{ $o->name }}</p>
               <div class="mt-auto flex items-end justify-between gap-3 pt-6">
-                <div><p class="text-[10px] uppercase tracking-[0.22em] text-kp-gold">{{ $t('price_label') }}</p><p class="mt-1 font-serif text-xl text-white">{{ $op ? $fmt($op) : $t('price_request') }}</p></div>
+                <div><p class="text-[10px] uppercase tracking-[0.22em] text-kp-gold">{{ $t('price_label') }}</p><p class="mt-1 font-serif text-xl text-white">@if($op && filled($pfx))<span class="mr-1.5 font-sans text-[9px] font-semibold uppercase tracking-[0.18em] text-white/65" data-kp-price-from>{{ $pfx }}</span>@endif{{ $op ? $fmt($op) : $t('price_request') }}</p></div>
                 <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors group-hover:border-kp-gold group-hover:bg-kp-gold group-hover:text-black" aria-hidden="true">{!! $arrow !!}</span>
               </div>
             </div>
@@ -350,7 +351,7 @@
         <h2 class="mt-6 font-serif text-[clamp(2.4rem,6vw,4.6rem)] font-medium leading-[0.98] tracking-[-0.03em] text-white">{{ $car->name }}</h2>
         <p class="mx-auto mt-5 max-w-[50ch] text-[15px] leading-relaxed text-white/55">{{ $nm($t('end_text')) }}</p>
         <p class="mt-8 text-[10px] font-semibold uppercase tracking-[0.3em] text-kp-gold">{{ $kPrice ? $priceLabel : '' }}</p>
-        <p class="mt-2 font-serif text-[clamp(1.8rem,3.4vw,2.6rem)] text-white">{{ $kPrice ? $fmt($kPrice) : $t('price_request') }}</p>
+        <p class="mt-2 font-serif text-[clamp(1.8rem,3.4vw,2.6rem)] text-white">@if($kPrice && filled($pfx))<span class="mb-1.5 block font-serif text-[15px] font-normal italic leading-none tracking-normal text-white/65 sm:text-[17px]" data-kp-price-from>{{ $pfx }}</span>@endif<span class="whitespace-nowrap">{{ $kPrice ? $fmt($kPrice) : $t('price_request') }}</span></p>
         <div class="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
           <a href="{{ route('essai', ['modele' => $car->slug]) }}" class="{{ $btnGold }}">{{ $t('cta_test') }}</a>
           <a href="{{ $wa }}" target="_blank" rel="noopener" class="{{ $btnGhost }}">{!! $waIcon !!}{{ $t('cta_wa') }}</a>
@@ -363,7 +364,7 @@
   {{-- Barre mobile --}}
   <div class="fixed inset-x-0 bottom-0 z-30 border-t border-kp-gold/20 bg-black/85 px-3 pb-[max(.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-xl lg:hidden" data-kp-md-bar>
     <div class="mx-auto flex max-w-[560px] items-center gap-3">
-      <div class="min-w-0 flex-1"><p class="truncate text-[9px] font-semibold uppercase tracking-[0.22em] text-kp-gold">{{ $kPrice ? $priceLabel : $car->name }}</p><p class="truncate font-serif text-[15px] text-white">{{ $kPrice ? $fmt($kPrice) : $t('price_request') }}</p></div>
+      <div class="min-w-0 flex-1"><p class="truncate text-[9px] font-semibold uppercase tracking-[0.22em] text-kp-gold">{{ $kPrice ? $priceLabel : $car->name }}</p><p class="truncate font-serif text-[15px] text-white">@if($kPrice && filled($pfx))<span class="mr-1.5 font-sans text-[9px] font-semibold uppercase tracking-[0.18em] text-white/60" data-kp-price-from>{{ $pfx }}</span>@endif{{ $kPrice ? $fmt($kPrice) : $t('price_request') }}</p></div>
       <a href="{{ $wa }}" target="_blank" rel="noopener" class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/20 text-white" aria-label="{{ $t('cta_wa') }}">{!! $waIcon !!}</a>
       <a href="{{ route('essai', ['modele' => $car->slug]) }}" class="inline-flex h-11 shrink-0 items-center justify-center rounded-full bg-kp-gold px-4 text-[10px] font-bold uppercase tracking-[0.16em] text-black">{{ $t('cta_test') }}</a>
     </div>

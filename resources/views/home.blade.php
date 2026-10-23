@@ -36,11 +36,14 @@
         <svg class="kp-bn-ring absolute inset-0 h-full w-full text-kp-gold/45" viewBox="0 0 200 200" fill="none"><circle cx="100" cy="100" r="96" stroke="currentColor" stroke-width=".6" stroke-dasharray="2 6"/></svg>
         <div class="absolute inset-[10%] rounded-full border border-kp-gold/30 bg-gradient-to-br from-[#2a2112] via-[#0c0a06] to-black shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_30px_60px_-20px_rgba(0,0,0,0.9)]"></div>
         @if($bnImg)<img src="{{ cms_asset($bnImg) }}" alt="" loading="lazy" decoding="async" class="absolute bottom-[12%] left-1/2 z-10 w-[112%] max-w-none -translate-x-1/2 object-contain opacity-95 drop-shadow-[0_24px_30px_rgba(0,0,0,0.85)]">@endif
-        <svg class="absolute left-1/2 top-[9%] z-20 h-[26%] w-[26%] -translate-x-1/2 text-kp-gold drop-shadow-[0_0_18px_rgba(201,169,98,0.7)]" viewBox="0 0 24 24" fill="none" stroke="url(#kpBnGold)" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><defs><linearGradient id="kpBnGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e7b5"/><stop offset=".5" stop-color="#c9a962"/><stop offset="1" stop-color="#8a6a2c"/></linearGradient></defs>{!! $bnIco['shield'] !!}</svg>
       </div>
       {{-- texte --}}
       <div class="min-w-0 text-center lg:col-span-8 lg:text-left">
-        <p class="kp-bn-rv flex items-center justify-center gap-3 text-[10px] font-bold uppercase tracking-[0.38em] text-kp-gold sm:text-[11px] lg:justify-start" style="transition-delay:80ms"><span class="h-px w-8 bg-kp-gold/70" aria-hidden="true"></span>{{ $bn('banner_eyebrow') }}</p>
+        <p class="kp-bn-rv flex justify-center lg:justify-start" style="transition-delay:80ms" data-kp-banner-seal>
+          <span class="inline-flex items-center gap-2.5 rounded-full border border-kp-gold/45 bg-gradient-to-b from-kp-gold/[0.16] to-kp-gold/[0.04] py-1.5 pl-1.5 pr-4 text-[10px] font-bold uppercase tracking-[0.32em] text-kp-gold shadow-[0_0_28px_-10px_rgba(201,169,98,0.8),inset_0_1px_0_rgba(255,255,255,0.08)] sm:text-[11px]">
+            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#f1dfa8] via-kp-gold to-[#8a6a2c] text-black shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]" aria-hidden="true"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">{!! $bnIco['shield'] !!}</svg></span>{{ $bn('banner_eyebrow') }}
+          </span>
+        </p>
         <h2 class="kp-bn-rv mt-4 bg-gradient-to-r from-[#fbf3dc] via-[#e9d29a] to-[#c9a962] bg-clip-text font-serif text-[clamp(2rem,4.6vw,3.9rem)] font-medium leading-[1.04] tracking-[-0.02em] text-transparent" style="transition-delay:160ms">{{ $bn('banner_title') }}</h2>
         @if($bnItems->isNotEmpty())
         <ul class="kp-bn-rv mt-8 grid gap-3 sm:grid-cols-2 lg:max-w-2xl" role="list" data-kp-banner-items style="transition-delay:240ms">

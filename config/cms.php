@@ -126,6 +126,8 @@ return [
     // ---------------- MODÈLES (accueil, au-dessus du S.A.V.) — les modèles eux-mêmes : Admin › Modèles (accueil) ----------------
     'modeles.title' => ['modeles', 'textarea', 'Titre de la section (FR)', 'Des modèles conçus pour la route, le travail et l’aventure.'],
     'modeles.title_en' => ['modeles', 'textarea', 'Titre de la section (EN)', 'Models built for the road, for work, and for adventure.'],
+    'models.price_from' => ['modeles', 'text', 'Préfixe devant le prix des modèles (FR) — cartes Modèles, /modeles, fiche modèle', 'À partir de'],
+    'models.price_from_en' => ['modeles', 'text', 'Préfixe devant le prix des modèles (EN)', 'From'],
 
     // ---------------- SHOWROOM VIRTUEL (/showroom) — modèles, galeries, points forts : Admin › Modèles (accueil) ----------------
     'showroomv.seo_title' => ['showroomv', 'text', 'Titre de l\'onglet / Open Graph', 'Showroom — KPANDJI AUTOMOBILES'],
@@ -249,7 +251,7 @@ return [
     'price.save' => ['misc', 'text', 'Ruban prix — « Économisez »', 'Économisez'],
     'price.promo_ttc' => ['misc', 'text', 'Ruban prix — prix promo', 'Prix kpandji TTC'],
     'price.promo_ttc_from' => ['misc', 'text', 'Ruban prix — prix promo multi-versions', 'Prix kpandji TTC · à partir de'],
-    'price.pack' => ['misc', 'text', 'Ruban prix — pack campagne', 'Pack campagne entretien inclus :'],
+    'price.pack' => ['misc', 'text', 'Ruban prix — pack campagne (affiché sans montant si un pack campagne est saisi)', 'Pack campagne entretien sous condition'],
     'price.from' => ['misc', 'text', 'Ruban prix — « À partir de »', 'À partir de'],
     'price.discount' => ['misc', 'text', 'Ruban prix — remise %', 'Remise promotion'],
     'price.special' => ['misc', 'text', 'Ruban prix — surtitre sans prix', 'Offre spéciale'],
